@@ -1,0 +1,53 @@
+const mon = "mon";
+const tue = "tue";
+const wed = "wed";
+const thu = "thu";
+const fri = "fri";
+const sat = "sat";
+const sun = "sun"
+위와 같이 변수에 값을 일일이 넣어주는 것은 그다지 좋은 방법이 아니다.
+위의 것들을 리스트로 그룹화시키고 싶다면 어떻게 할 수 있을까?
+1. 우선, 다음과 같이 긴 변수를 만들어 보자.
+const daysOfWeek = mon + tue + wed + thu + fri + sat + sun;
+console.log(daysOfWeek)
+결과는 montuewedthufrisatsund 이다.
+즉, 위에서 변수에 넣어준 string들을 모두 합친 것이고 이는 우리가 원한 대로 작동하지 않으므로 쓸모가 없다.
+그냥 문자이므로 예를 들어 금요일만 돌려달라는 요청을 하고 싶을 때 그렇게 할 수 없다.
+
+2. string이 아닌 array로 만들어 보자.
+array를 만들기 위해서는 [ ](대괄호)를 사용해 주면 되고 그 안에 내가 원하는 값들을 쉼표로 구분하여 모두 입력하면 된다.
+대괄호 안에는 문자열, 숫자, 변수, 공백, type 등을 넣을 수 있다.
+
+const daysOfWeek = [mon , tue , wed , thu , fri , sat , sun];
+console.log(daysOfWeek);
+결과는 다음과 같다.
+(7) ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sund']
+데이터들로 이루어진 리스트를 생성하였다. ( ) 안에는 리스트 요소들의 개수가 써져 있고, 괄호 왼쪽 화살표를 펼치면 index와 
+그에 해당하는 값들이 한줄에 하나씩 적혀 있다. 리스트의 length도 적혀 있다.
+
+3. array 에서 값 받아오기
+console.log(daysOfWeek[원하는 번째수]);
+* 컴퓨터는 숫자를 0부터 센다는 것을 기억!
+
+ex) console.log(daysOfWeek[5]); 결과는 sat을 얻을 수 있음.
+
+* 자바스크립트에서의 주석: // 사용
+
+4. 리스트에 항목 추가하기: "push" 사용
+daysOfWeek.push("추가하고 싶은 항목");      --> array.push("element to add");
+
+ex) const daysOfWeek = [mon , tue , wed , thu , fri , sat , sun];
+
+// Get Item from Array
+console.log(daysOfWeek);     --> 결과 비교를 위해 인덱스를 지운 것으로 수정함.
+
+// Add one more day to the array
+daysOfWeek.push("sun")
+
+console.log(daysOfWeek);
+첫번째 결과는 항목이 7개인데 두번째 결과는 "sun"이 리스트 마지막 부분에 추가되어 항목이 8개가 되었다.
+
+ex2) buylist에 항목 추가하기
+const toBuy = ["potato", "tomato", "kimchi"];
+toBuy.push("kimbab");
+console.log(toBuy) --> kimbab이 추가된 list를 볼 수 있음.

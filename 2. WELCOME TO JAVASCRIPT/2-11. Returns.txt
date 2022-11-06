@@ -1,0 +1,83 @@
+우리는 이제 console.log를 그만 사용하도록 할 것이다. 우리가 원하는 것은 function 밖에서 결과값을 얻는 것이기
+때문이다. 즉 console 창에서 결과를 보는 것이 아니라 화면 상에 나타나게 한다든지 data를 받아서 쓴다든지 하는
+일을 하고 싶기 때문이다.
+
+1. calculator 객체 안에 적혀 있는 함수들의 실행문에서 console.log 부분을 모두 alert로 바꾸면 화면에 경고창이 뜨면서
+결과가 그 창 안에 적혀 나온다.
+calculator.plus(2, 3);
+calculator.times(2, 3);
+calculator.minus(2, 3);
+calculator.divide(2, 3);
+calculator.power(2, 3); 의 결과가 창 한개당 하나씩 차례로 나옴.
+
+2. console.log(calculator.plus(2, 3)); 를 하면 경고창에 계산 결과인 5가 뜨고 console창에 결과가 undifined로 나온다.
+왜 그런지 알아보자.
+
+* 함수는 단순히 어떤 일을 수행하는 것이라기보다는 어떤 일을 수행하고 그 결과를 알려주는 것이라고 생각하면 좋다.
+(물론 일을 수행만 하는 함수도 있다. 중요한 것은 코드에서의 결과를 원한다는 것이다.)
+
+ex 1) const age = 96;
+function calculateKrAge(ageOfForeigner) {
+    ageOfForeigner + 2;
+}
+
+const krAge = calculateKrAge(age);
+
+console.log(krAge);     --> 이렇게 작성하면 console 창에서 undifined라고 뜬다. 
+이것은 return을 작성하지 않았기 때문에 벌어지는 일!
+
+const age = 96;
+function calculateKrAge(ageOfForeigner) {
+    return ageOfForeigner + 2;     --> 값을 반환받고 싶은 코드 앞에 return을 적어줌.
+}
+
+const krAge = calculateKrAge(age);     --> return을 적어주었기 때문에 calculateKrAge(age)가 ageOfForeigner + 2의 결괏값으로 대체됨.
+                                                        즉, 96이라는 argument가 age 자리로 대체되면서 96 + 2를 return함. (98)
+console.log(krAge);
+이것이 function이 function 밖의 값을 이용하는 방법이다.
+
+ex 2) const age = 96;
+function calculateKrAge(ageOfForeigner) {
+    ageOfForeigner + 2;
+    return "hello";     --> 반환하는 값은 string type의 "hello"이다.
+}
+
+const krAge = calculateKrAge(age);     --> calculateKrAge(age)를 대체하여 들어가는 값은 "hello"이고 이것이 곧 변수 krAge에 대입되게 된다.
+console.log(krAge);
+
+3.
+const calculator = {
+    plus: function (a, b) {
+        return a + b;
+    },
+    minus: function (a, b) {
+        return a - b;
+    },
+    times: function(a, b) {
+        return a * b;
+    },
+    divide: function(a, b) {
+        return a / b;
+    },
+    power: function(a, b) {
+        return a ** b;
+    }
+};     --> 위와 같이 alert 부분을 지우고 console.log를 작성하지 않고 return만 적어주면 console창에서는 결과가 보이지 않는다.
+
+const plusResult = calculator.plus(2, 3);     --> return을 적어주었으므로 옆과 같이 함수를 호출하는 코드가 앞에서의 함수의 반환값이 된다.
+
+console.log(plusResult);     --> return으로 반환값이 생긴 것이 plusResult에 대입되었으므로 plusResult를 console.log하였을 때 undifined
+가 아닌 숫자값이 뜨게 된다.
+
+4. 이전까지는 console 창에서만 결과를 알 수 있었다. 즉, 출력되는 값만 볼 수 있었고 console에서 결과값을 가져와서 사용할 수 없었다.
+하지만 function에 return을 사용하여 결괏값을 반환시켜 결괏값 data를 활용할 수 있게 되었으므로(변수에 저장 등) 다음과 같은 상호의존적
+인 코드의 실행이 가능하다.
+
+const plusResult = calculator.plus(2, 3);     --> 결과 : 2 + 3 = 5
+const minusResult = calculator.minus(plusResult, 10);     --> 결과: 5 - 10 = -5
+const timesResult = calculator.times(10, minusResult);     --> 결과: 10 * (-5) = -50
+const divideResult = calculator.divide(timesResult, plusResult);     --> 결과: -50 / 5 = -10
+const powerResult = calculator.power(divideResult, minusResult);     --> 결과: -10 ** (-5) = -0.000009999999999999999
+
+이 상태에서 refresh 해 보면 console 창에는 아무것도 뜨지 않는다. console.log를 해 주지 않았기 때문이다. 
+but 값이 변수에 저장된 상태이기 때문에 plusResult 등의 변수를 console 창에 작성해 주면 그것에 대한 결과값이 뜨게 된다.

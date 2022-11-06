@@ -1,0 +1,60 @@
+가끔씩은 list 안에 정리하고 싶지 않을 수도 있는데 그럴 때에 object를 만든다. 
+
+1. 비유: 비디오 게임을 만드는 상황이라고 가정해 보자. object가 없다면 캐릭터를 만들 때 다음과 같이 구상할 수 있다.
+const playerName = "nico";
+const platerPoints = 121212;
+const playerHandsome = fasle;
+const playerFat = "little bit";
+위를 보면 Name, Points, Handsome, Fat의 특성들이 한 개의 개체(entity)인 player에 대하여 설명하고 있는 것을 볼 수 있다.
+
+2. 위의 것을 간결하게 하기 위해 array 방식으로 표현하면 다음과 같이 된다.
+const player = ["nico", "121212", false, "little bit"];
+이 방법이 그다지 좋은 방법이 아닌 이유는 리스트 요소들 각각이 무엇을 의미하는지 알려주지 않기 때문이다.
+다음과 같이 위쪽에 주석을 적어 표현해 줄 수도 있다.
+// player[0] == name
+// player[1] == points
+하지만 더 좋은 방법이 필요하다.
+
+3. object의 생김새
+array를 만들 때와 비슷한데, 차이점은 { }(중괄호)를 쓴다는 것이다. const player라고 적어주면 중괄호 안에서는 이미 player
+안에 있는 것이므로 player를 적지 않아도 되고 원하는 특성만 적어주면 된다.
+그리고 object 안에서는 =가 아닌 :을 사용하고 property가 여러개 올 수 있기 때문에 ,로 구분해준다.
+const player = {
+    name: "nico",
+    points: 121212,
+    handsome : false,
+    fat: "little bit"
+};
+위의 것을 console 창에 뜨게 해 보자.
+console.log(player);
+console.log(player.name); --> console.log(player["name"]); 으로 적어도 가능
+여기에서 console은 곧 object를 의미하고 그 안에 log에서 ( )안에 입력한 값을 가져오게 하는 코드가 위 코드라고 할 수 있다.
+--> object가 데이터를 정리하기 좋은 타입이라는 것을 알 수 있다.
+but object와 list는 다르다!!
+리스트는 모든 값이 의미를 가진다. 
+
+4. object 업데이트하기
+player.fat = "so much";
+console.log(player);
+fat의 값이 so much로 변경된 것을 볼 수 있다.
+그런데 앞에서 const는 변하지 않는 값을 정의할 때 사용한다고 하였는데 어떻게 value 업데이트가 가능한 것일까?
+위의 것이 가능한 이유는 object인 player 안에 있는 fat 의 내용을 수정한 것이지 object 자체인 player를 건든 것이 아니기 때문이다.
+만약 다음과 같이 입력하면 console 창에서 오류가 뜰 것이다. (Uncaught TypeError: Assignment to constant variable.)
+player = false
+console.log(player);
+즉, constant 안의 무언가를 업뎃할 때는 아무 문제 없다는 것이다.
+
+5. object에 새로운 값 추가하기 + 값 업뎃하기
+player.lastName = "potato";
+player.points = 15;
+console.log(player);
+결과로 lastName: 'potato' 가 추가됨.
+
+6. object에 연산 결과값 추가하기
+player.points = player.points + 15;     --> 이전 player.points의 값에 15를 더한 값이 업뎃될 player.points의 값이 된다는 의미
+console.log(player.points);
+전의 player.points의 값이 15였으므로 30으로 업뎃되면 성공!
+
+- 정리: object는 property(속성, {name(이름/키) : value(값)}의 형태로 이루어져 있음.)를 가진 데이터를 저장하도록 해 준다. 
+   
+

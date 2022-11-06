@@ -1,0 +1,50 @@
+1. 리스트의 장점: 리스트의 요소들이 한 변수에 해당하므로 그것들이 같은 종류임을 알 수 있음.
+but 연관되어 있는 property들을 그룹으로 묶어서 저장해야 할 때에는 리스트가 좋은 선택은 아니다.
+다음과 같이 object를 생성하여 표현할 수 있다.
+const player = {     --> player 객체 생성
+    name: "Nico",     # player object의 property 작성
+    age: 98,
+}; 
+
+값을 불러올 때 우리는 계속 console.log();를 사용하였다. console에는 많은 property가 있는데 그중 하나가 log이다.
+즉, console은 사실 object였던 것이다.
+console.log(player, console);을 작성하면 player 객체에 있는 내용이 딕셔너리 형식으로 다음과 같이 나온다.
+{name: 'Nico', age: 98}
+그리고 console이란 object 안에 있는 내용들이 나온다. player 객체를 불러왔을 때랑 유사한 것을 볼 수 있다.
+console {debug: ƒ, error: ƒ, info: ƒ, log: ƒ, warn: ƒ, …}
+............
+
+위 object에서 name을 바꾸고 싶다면 다음과 같이 할 수 있다.
+player.name = "nicolas";
+console.log(player);     --> name에 해당하는 value가 nicolas로 바뀐 것을 볼 수 있다.
+
+새로운 property의 추가가 가능하다.
+player.sexy = "soon";     --> 값을 불러올 때처럼 원하는 값을 적는다.
+console.log(player);     --> 바뀐 player 객체를 console 창에 나타내어 본다.
+
+
+2. 어떠한 것을 반복하여 실행시키고 싶을 때 함수(function)을 이용하면 편리하다. 함수는 다음과 같이 작성한다.
+function plus() {     --> function을 앞에 적어준 후 '함수 이름()'을 적어주었고 { }안에 실행문을 적어주었다.
+    console.log(2 + 2);
+}
+plus();     --> 함수를 실행시킴. ( ) 이 괄호를 적어주는 것을 잊지 말자!
+결과는 console.log(2 + 2); 가 실행된 결과인 4가 console 창에 뜬다.
+
+* 자바스크립트는 위에서부터 아래로 순서대로 실행시킨다. 중간에 에러가 나면 그 아래것들은 실행되지 않는다.
+
+but function의 목적은 여러 가지 일을 같은 코드로 하기 위함이므로 function 밖에서 data를 넣을 수 있게 하는 것이 
+훨씬 더 좋다.
+우선 function에 data를 보내는 예시를 살펴보자.
+alert("lalalalal");     --> alert 함수에 "lalalalal"이라는 data를 보내는 것이 된다.(lalalalal 내용이 적혀 있는 창이 뜬다.)
+이것으로 function 안에서 data를 받는 방법은 () 안에 무언가를 적는 것이라는 걸 알 수 있다.
+function plus(potato, salad) {     --> () 안에 potato, salad를 적어 place holder로써 data를 받을 준비를 한다.
+    console.log(potato + salad);     --> place holder를 이용하여 수행할 계산 같은 것을 적음
+}
+
+plus(5, 10);     --> 5는 potato, 10은 salad가 된다. 순서가 중요! console창에는 더하기 연산이 수행된 15가 뜬다.
+
+function minusFive(potato) {     --> potato에 해당하는 부분은 function 안에서만 사용할 수 있다는 것을 기억!
+    console.log(potato - 5);     --> function 밖에서는 접근하지 못한다. 밖에서 쓰려고 하면 not defined 오류가 뜸.
+}
+minusFive(5, 10, 12, 34, 4, 5, 6, 7);     --> 옆과 같이 function에 많은 argument를 보내도 상관이 없지만
+위에서 place holder가 1개이기 때문에 첫번째 argument만 받아 console 창에는 0만 뜬다.

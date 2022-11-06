@@ -1,0 +1,72 @@
+1. 함수가 어떻게 데이터를 받는지에 대해 알아볼 것임.
+function sayHello(){
+    console.log("Hello my name is C");
+}
+위와 같은 코드에서 C 부분에 내가 원하는 값을 넣으려면 어떻게 해야 할까?
+
+ex) function sayHello(nameOfPerson){
+        console.log(nameOfPerson);
+    }
+
+    sayHello("nico");     --> 괄호 안에 있는 데이터들이 nameOfPerson(인수)이라는 argument에 들어감으로써
+    sayHello("dal");            sayHello에 보내지게 된다.
+    sayHello("lynn");
+
+console 창에서 보면 nico, dal, lynn이 차례로 출력되어 있는 것을 볼 수 있다.
+
+2. 함수는 2개의 argument도 받을 수 있다.
+function sayHello(nameOfPerson, age){
+        console.log(nameOfPerson);
+    }
+
+데이터를 입력할(보낼) 때는 다음과 같이 쉼표로 구분해 주면 된다.
+sayHello("nico", 10);     -> 첫 번째 입력값은 string(nameOfPerson), 두 번째 입력값은 int(age)가 된다.
+sayHello("dal", 23);
+sayHello("lynn", 21);
+
+but function body부분을 수정해야 한다. 2개의 값을 넣어주어야 하기 때문에
+function sayHello(nameOfPerson, age){
+    console.log("Hello my name is " + nameOfPerson + " and I'm " + age);
+}
+
+3.
+* argument에 값을 보내지 않으면 console창에 'undifined'라고 뜬다.
+ex) function plus(a, b){
+        console.log(a, b);
+    }
+
+    plus();     --> 이렇게 할 시에 뜸
+
+* NaN(Not a Number) : 숫자가 아니라는 의미의 data type
+ex) function plus(a, b){
+        console.log(a + b);
+    }
+
+    plus();     --> 이렇게 할 시에 뜸
+
+4. 계산기 만들기
+function plus(firstNumber, secondNumber){     
+    console.log(firstNumber + secondNumber);     --> firstNumber와 secondNumber는 function 밖에서 
+}                                                                      존재할 수 없음.
+
+
+function divide(a, b){
+    console.log(a / b);
+}
+
+plus(60, 8);     --> 결과: 68
+divide(98, 20);     --> 결과: 4.9
+
+
+5. player object 안에 함수 작성하기
+const player = {     --> player 객체 생성
+    name: "nico",
+    sayHello: function(otherPersonsName){
+        console.log("hello " + otherPersonsName + " nice to meet you!");     --> 밖에서 단독으로 함수를 쓸 때랑 객체 안에 함수를 쓸 때랑 다름.
+    },  
+};
+
+console.log(player.name);     --> player 객체 안에 있는 name porperty를 console 창으로 보낼 때의 작성 방법
+player.sayHello("lynn");     --> player 객체 안에 있는 함수를 보낼 때의 작성 방법
+
+콘솔 창에 hello lynn nice to meet you! 라고 뜨면 성공!

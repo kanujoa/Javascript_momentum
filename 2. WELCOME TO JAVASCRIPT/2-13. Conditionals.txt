@@ -1,0 +1,34 @@
+조건문(conditional)은 true인지 false인지 알려 주기 때문에 아주 중요하다.
+
+1. 사용자의 나이를 묻고 음주가 가능한 나이인지 아닌지를 판단하는 코드 만들기
+const age = prompt("How old are you?");
+console.log(age);     
+--> prompt는 사용자에게 창을 띄울 수 있게 해 주고 2개의 argument를 받는다. 
+--> 즉, 사용자에게 message를 보여주고 값을 input하라는 명령을 한다.
+--> page는 로딩중으로 보이고(javascript를 일시정지시키고 있음, 사용자가 응답하기 전까지) 창이 뜨면서 How old are you? 라고 물어본다. 
+--> console창에는 아무것도 뜨지 않는다. console.log는 아직 작동하지 않았다는 의미이다.
+but 위와 같은 prompt를 사용하지 않는 이유는 매우 오래된 방식으로 CSS를 적용시키는 등의 스타일을
+변화시킬 수 없기 때문이다. 그리고 어떤 브라우저들은 위와 같은 팝업을 제한하기도 한다.
+
+창에서 취소(cancel)를 누르면 console 창에서는 console.log(age)의 결과로 'null' 이라고 뜬다.(값이 없다는 의미)
+창에 값을 입력하면 그 값이 그대로 console 창에 뜨고 확인을 누르면 결과로 아무것도 뜨지 않고 넘어간다.
+
+2. 어떤 값을 입력하든지 숫자로 인식하게 만들어 볼 것이다.
+
+2-1. const age = prompt("How old are you?");
+console.log(typeof age);     --> typeof는 붙여서 적어야 한다. console.log(typeof(age)); 도 가능
+위와 같이, typeof를 적고 한 칸 띄워서 variable을 적으면 입력값의 type을 console창을 통해 알 수 있게 된다.
+숫자를 입력하든 문자를 입력하든 확인을 누르든 console 창에는 string이라고 뜨는 것을 볼 수 있다.
+취소를 누르면 object라고 뜬다.(값이 없으므로)
+
+2-2. 'parseInt'를 사용하면 string type을 int type(number)로 변환할 수 있다.
+console.log(typeof "15", typeof parseInt("15"));   --> 전자는 string, 후자는 number이다.
+console.log(typeof age, parseInt(age));     --> 전자는 string, 후자는 NaN(Not a Number)이다. 숫자로 이루어진 string이 아니므로 int 변환 불가능
+
+2-3. prompt와 parseInt 함수를 같이 사용하면 입력값을 int로 받을 수 있다.
+const age = parseInt(prompt("How old are you?"));     --> 나이 입력값(숫자 입력)을 int로 받기
+console.log(age);     --> console 창에서 age에 할당된 값을 확인해 보자. (15를 입력하면 숫자 15 확인 가능)
+--> 만약 문자열(ex) hello)을 입력한다면 NaN(Not a Number)가 나와야지 정상!
+
+* input은 기본적으로 string type인 것을 기억! int로 인식되게 하려면 parseInt를 이용하여 입력값 string을
+int type으로 변환해야 한다.

@@ -1,0 +1,25 @@
+1. Boolean: true or false
+다음과 같이 따옴표를 적지 않고 boolean type을 적어주면 됨.
+ex) const amIFat = false;
+ex) const anIFat = ture;
+
+첫번째 예시를 console.log 해 보면 false의 결과가 나오는 것을 볼 수 있음.
+두번째 예시를 console.log 해 보면 true의 결과가 나오는 것을 볼 수 있음.
+* console.log(amIFat); 입력
+
+2. 자바스크립트의 데이터 타입 '존재하지 않음', '정의되지 않음', '아무것도 없음'을 의미하는 것들이 있다.
+그 중 하나가 'null'이다. --> 그 변수에 아무것도 없다는 것을 의미!(false와 다르다! false는 false라는 값이 존재하는 것!)
+const amIFat = null;  --> 다음과 같이 작성
+console.log(amIFat);
+console창에 결과로 null이 뜸.
+
+3. let something; --> 변수를 만들었긴 한데 거기에 값을 주진 않은 상태
+   console.log(amIFat);
+결과로 undifined가 뜸. 문자(text, string)가 아니라 데이터 타입처럼 나와 있음.(null, true, false처럼 '타입' 임.)
+null은 변수 안에 어떤 것도 없다는 것을 확실히 하기 위해 사용함.
+* null: 변수에 null(값이 없다)이 할당된다. 즉, 정의됨.
+* undifined: 변수는 선언했지만 값을 할당하지는 않음. 
+
+4가지의 데이터 type인 true, false, null, undifined는 VSCode에서 작성했을 때 색을 달리해주는 것을 볼 수 있음.
+
+- 정리: true = 켜져 있음, false = 꺼져 있음, null = 없음, undifined = 컴퓨터가 변수에 대해서 인지하고(변수가 메모리에 생성됨.)있지만 값이 없음.

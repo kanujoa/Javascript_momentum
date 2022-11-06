@@ -1,0 +1,29 @@
+우리가 저번에 적어준 player.points는 function이 아닌 숫자이므로 player.points() 이러한 식으로 함수로 사용하려고 하면 
+오류가 난다. 그렇다면 함수는 어떻게 만드는 것일까?
+
+1. function: 계속 반복해서 사용할 수 있는 코드 조각
+여러 사람의 인사말을 console.log 해 본다고 하자.
+console.log("Hello my name is Nico");
+console.log("Hello my name is Dal");
+console.log("Hello my name is Shihatsu");
+console.log("Hello my name is Flynn");
+위와 같은 식으로 console.log를 하는데 복붙을 너무 많이 하면 비효율적이다.
+그리고 위 코드에서 바뀌는 부분은 이름 부분이고 나머지는 똑같다.
+코드의 반복을 최소한으로 하기 위해 "function"을 사용할 수 있다.
+function은 어떤 코드를 캡슐화해서 실행을 여러 번 할 수 있게 해 준다.
+
+2. function을 만드는 규칙 
+const를 써 주는 것처럼 function을 작성해 주고 옆에 함수 이름과 함께 ()을 같이 작성해 준다. 그리고 { }를 작성해 그 
+안에 반복하고 싶은 코드를 적고 함수를 실행해 주면 된다. 
+ex) function sayHello(){
+    console.log("Hello");
+}     --> sayhello라는 이름의 함수를 만들었고 그 안의 코드인 console.log("Hello");을 반복해서 실행시킬 수 있다.
+
+3. function 실행하기
+sayHello(); 적어주기
+
+4. but 위 function은 같은 결과를 계속 내고 있다. 우리가 원하는 프로그램을 만들기 위해서는 
+'argument(인수)' 라는 것을 보내야 한다.
+- argument : 함수를 실행하는 동안 어떤 정보를 함수에게 보낼 수 있는 방법
+ex) 앞 시간에서 alert를 사용할 때 alret(); 이런 식으로만 적는 것이 아닌 alert("yeah"); 이런 식으로 괄호 안에 인수를 적어주었다.
+    (물론 alert() 로만 적어도 작동은 된다. 인수가 없는 것뿐!)

@@ -1,0 +1,33 @@
+2.0 YOUR FIRST JS PROJECT
+
+브라우저에서 자바스크립트를 사용하는 방법 --> 개발자 도구에서 'console' 창을 열면 됨.
+ex) alert("hi") 입력 --> 창 위쪽 가운데에 Momentum hi 라고 뜸
+ex) 1 + 1 입력 --> 2 출력 (계산기로도 사용 가능)
+but consloe에서는 한줄씩 작성할 수 있으므로 비효율적 --> 자바스크립트 파일을 따로 만드는 것이 좋음
+
+1. 파일 탐색기에서 momentum이라는 이름의 새로운 자바스크립트 파일을 생성시킨다. 그 후 그 파일을 
+VSCODE로 연다. 그 후 app.js 파일과 index.html 파일 생성
+
+2. app.js에 'alert("hi");' 입력 후 app.js 파일을 브라우저로 열어서 결과 확인(app.js를 브라우저 tab 부분에 끌어다주면 됨.)
+but 우리가 얻고 싶은 결과(위쪽 중앙에 경고창이 뜨는 것)가 나오지 않고 입력한 코드 그대로가 나옴.
+
+3. style.css 라는 파일을 만들고 
+body {
+    background-color: beige;
+}
+코드 입력, 브라우저로 끌어다가 결과를 보면 app.js 때와 같이 코드가 그대로 나오는 것을 볼 수 있음.
+즉, 파일을 실행시킨 것이 아니라 파일을 보고 있는 중이고 브라우저는 위와 같은 식으로 CSS와 JAVASCRIPT 파일을
+실행하지 않음. --> HTML이 접착제 역할! 브라우저는 HTML을 열고 CSS와 자바스크립트를 가져옴.
+
+4. 아까 만들어 둔 index.html 파일에 HTML 기본 틀 불러오기 (단축키: ! 입력 후 tab 누르기)
+<title>Momentum</title>으로 제목 입력
+그 위에 <link rel = "stylesheet" href = "style.css"(내가 만든 CSS 파일명)/></link> 입력하여 CSS파일 불러오기
+index.html 파일을 열어 보면 <title>에서 입력한 대로 tab 부분에 Momentum이라고 뜨고 CSS내용대로 body 부분이 베이지색으로 나옴.
+
+5. javascript 파일은 <head>가 아닌 <body>에서 <script> tag를 통해 불러옴. 다음과 같이 입력하기
+<body>
+    <script src = "app.js"(내가 만든 javascript 파일명)></script>
+</body>
+index.HTML을 새로고침해서 다시 실행시켜 보면 hi라는 내용의 창이 뜨는 것을 볼 수 있음. 
+
+--> 브라우저는 실행되어야 하는 파일이 있다는 것을 알 때 css와 javascript 이 두 엔진을 실행시킴.

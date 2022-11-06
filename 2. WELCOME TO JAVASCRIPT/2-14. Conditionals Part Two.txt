@@ -1,0 +1,26 @@
+1. isNaN() 함수는 인자를 넣으면 그것이 숫자인지 아닌지의 결과를 boolean으로 return하여 알려줌(True or False)
+const age = parseInt(prompt("How old are you?"));
+console.log(isNaN(age));
+--> 브라우저에 뜨는 창에서 age를 15라고 입력하면 console창에서는 false라고 뜨는 것을 볼 수 있다.
+     NaN은 Not a Number로 숫자가 아니라는 의미이므로 false는 숫자가 아닌 것이 아니라는 의미이니까
+     결국에 15가 숫자로 인식되었다는 것을 알 수 있다.
+
+--> hello와 같은 text를 입력하면 console 창에 true라고 뜨는 것을 볼 수 있고 이는 string type이라는 것을
+     알 수 있다.
+
+2. 조건문 작성하기
+if(condition) {     --> if 다음에 조건문, condition은 boolean으로 판단 가능해야 함 (only ture or fasle)
+    condition == true     --> 조건문이 참이면 옆 실행문 실행
+} else {     
+    condition == false     --> 조건문이 거짓이면 위에거에서 빠져나와서 옆 실행문 실행
+};
+
+앞에서 사용하였던 isNaN()함수가 결과를 boolean 형태로 주었기 때문에 condition 자리에 들어갈 수 있다.
+const age = parseInt(prompt("How old are you?"));     --> 입력창을 띄우고, 입력값이 숫자일 경우에만 int로 변환시킴
+if (isNaN(age)) {     --> 입력한 age가 숫자가 아닐 경우(hello와 같은 text 형태일 경우)      
+    console.log("Please write a number");     --> console 창에 옆과 같은 문구가 띄워짐. 
+} else {     --> 숫자 입력의 경우(숫자는 맨 위 코드를 통해 int 형태로 변환됨)
+    console.log("Thank you for writing your age.");     --> console 창에 옆과 같은 문구가 띄워짐.
+}
+
+

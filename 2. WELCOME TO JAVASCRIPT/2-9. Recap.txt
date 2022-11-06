@@ -1,0 +1,40 @@
+1.
+const a = 5;
+console.log(a);     --> 이것은 정상적으로 console 창에 뜨지만
+
+const isNicoFat = true;
+isNicoFat = false;
+console.log(isNicoFat);     --> 이것은 console창에서 오류로 뜸(const는 값을 업데이트하지 못하게 하므로)
+따라서 const 대신에 let을 사용할 것임. (업데이트 가능하도록)
+* 규칙: always const, sometimes let, never var
+--> var은 let과 비슷한 기능을 하지만 var은 오래된 자바스크립트로 이것을 쓰게 되면 const, let과 같이 업데이
+트가 가능한 변수인지 아닌지를 판단할 수 없음.
+
+2. true와 false는 boolean 자료형이고 text(string)가 아님!
+'null'은 비어 있음을 뜻함! 이것 역시 변수에 할당하여 사용함. '비어 있음' 이라는 값이 그 자체로 존재하는 것!
+다음과 같이 사용할 수 있음(파이썬에서는 None으로 사용)
+let hi = null;
+console.log(hi)     --> console 창에 null이라고 뜸. 
+
+'undifined'는 변수에 할당하지 않음! 다음과 같이 사용
+let hello;
+console.log(hello);     --> console 창에 undefined라고 뜸. hello는 존재하지만 안에 아무것도 없다는 뜻, 값이 전혀 없다는 뜻!
+
+
+3. array는 다음과 같이 만들기가 가능하다.
+const days = [];
+[] 안에는 어떤 데이터 타입도 들어가기 가능, 변수도 들어가는 것 가능
+
+원한다면 array에 있는 item에도 접근 가능
+const toBuy = ["potato", "tomato", "pizza"];
+console.log(toBuy[2]);     --> toBuy array의 3번째 요소를 받아온다. (pizza가 console 창에 나타남.)
+
+array의 요소를 바꾸기도 가능
+toBuy[2] = "water";
+console.log(toBuy);     --> toBuy의 3번째 요소를 "water"로 변경, console 창에 ['potato', 'tomato', 'water']
+라고 뜸.
+
+array에 요소를 추가시키는 것도 가능
+toBuy.push("meat");
+console.log(toBuy);     --> ['potato', 'tomato', 'water', 'meat']가 떠 있는 것을 볼 수 있음.
+

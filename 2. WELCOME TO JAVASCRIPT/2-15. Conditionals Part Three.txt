@@ -1,0 +1,65 @@
+1. else if()를 이용하여 조건문 여러개 넣기
+if (isNaN(age)) {
+    console.log("Please write a number.");
+} else if (age < 18) {     --> 위의 조건문이 fasle일 경우 실행됨. 
+    console.log("You are too young.");     --> age(숫자)가 18보다 작을 경우 옆의 코드가 실행됨.
+} else {     --> 마지막 else부분은 위의 두 조건문이 모두 fasle일 때만 실행됨.
+    console.log("You can drink.");
+}
+
+2. &&(and) 연산자 활용하기
+and 연산자는 '&&'를 사용하여 나타낸다.
+- true && true : ture
+- false && true, ture && false : false
+- false && false : false
+즉, 하나라도 false가 들어가 있다면 and 연산자 사용 결과에서는 fasle가 된다. (모두 true일때만 true!)
+
+const age = parseInt(prompt("How old are you?"));
+if (isNaN(age)) {
+    console.log("Please write a number.");
+} else if (age < 18) {
+    console.log("You are too young.");
+} else if (age >= 18 && age <= 50) {     --> 입력 age가 18보다 크거나 같고, 50보다 작거나 같음을 모두 만족할 때만 참!
+    console.log("You can drink.");     --> 참일 때 옆의 문장이 console 창에서 보여짐.
+} else {
+    console.log("You can't drink.");
+}
+
+4. else는 선택적 사항으로 작성하지 않아도 된다.
+const age = parseInt(prompt("How old are you?"));
+if (isNaN(age)) {
+    console.log("Please write a number.");
+} else if (age < 18) {
+    console.log("You are too young.");
+} else if (age >= 18 && age <= 50) {
+    console.log("You can drink.");
+} else if (age > 50 && age <= 80) {
+    console.log("You should exercise.");
+} else if (age > 80) {
+    console.log("You can do whatever you want.");
+}
+
+5. ||(or)연산자 사용하기
+or 연산자는 '||'를 사용하여 나타낸다.
+- true || ture : ture
+- true || false, fasle || true : fasle
+- fasle || false : false 
+즉, 하나라도 true가 들어가 있다면 or 연산자 사용 결과에서는 true가 된다.
+
+잘 일어나지는 않지만 음수를 입력하는 경우도 생각해 보자.
+위의 코드대로 실행시켜서 음수를 입력하면 age< 18 에 해당되어서 "You are too young"이라는 문구가 나
+오게 되는데 이는 적절하지 않다. 사용자에게 양의 숫자를 입력하라는 코드를 작성하게 해 보자.
+
+const age = parseInt(prompt("How old are you?"));
+
+if (isNaN(age) || age < 0) {     --> age가 숫자가 아니거'나' 음수일 경우에 참임.(둘 중 하나라도 참이면 참)
+    console.log("Please write a real positive number.");
+} else if (age < 18) {
+    console.log("You are too young.");
+} else if (age >= 18 && age <= 50) {
+    console.log("You can drink.");
+} else if (age > 50 && age <= 80) {
+    console.log("You should exercise.");
+} else if (age > 80) {
+    console.log("You can do whatever you want.");
+}
