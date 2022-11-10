@@ -1,0 +1,35 @@
+1. HTML에서의 id를 Javascript로 받아오는 방법
+우선 HTML의 body에 다음과 같은 코드를 추가한다.
+<h1 id = "title">Grab me!</h1>
+
+이것을 console 창에서 getElementById( ) 라는 string(id)을 전달받는 함수를 이용하여 호출해 볼 것이다.
+document.getElementById("title")     --> 이렇게 입력한다.
+그러면 <h1 id = "title">Grab me!</h1>의 결과가 나온다.
+--> javascript로 id = "title"을 가진 <h1> tag를 가져온 것!
+
+이것을 console 창에 입력하지 않고 VSCode로 하려면 다음과 같이 작성한다.
+const title = document.getElementById("title");
+console.log(title);
+물론 결과는 같다.
+단순히 요소가 아닌 자세한 속성을 확인하고 싶다면 console.dir 이용하기! --> id가 title <h1> tag 하나의
+많은 속성들을 보여준다. 많은 속성들 중에서 중요한 것은 textContent: "Grab me!"
+
+2. 위에서의 많은 속성들 중에서 autofocus: false에 대해 살펴보자.
+위 상태에서의 autofocus는 false로 되어 있다.
+우선 HTML을 수정한다.
+<h1 autofocus id = "title">Grab me!</h1>
+위처럼 하고 브라우저를 새로고침 해보면 autofocus: true로 바뀌어 있는 것을 볼 수 있다.
+
+--> 우리가 하고 있는 것은 HTML의 일부분을 가지고 오는 것이지만 그것을 Javascript에서 하고 있는 것임.
+--> Javascript는 object를 보여주지 HTML의 element를 보여주는 것은 아니다.
+
+3. class 추가해 보기
+class를 추가하기 전에는 className: ""으로 되어 있다.
+HTML을 다음과 같이 변경하여 class hello를 추가해 보자.
+<h1 autofocus class = "hello" id = "title">Grab me!</h1>
+그런 다음 새로고침하면 className: "hello"로 바뀐 것을 볼 수 있다.
+
+4. Javascript에 의한 HTML 변경을 실행해 보자.
+app.js에서 title.innerText = "Got you!"; 라는 코드를 작성해 보자.
+새로고침해보면 개발자 도구의 element에서의 <h1> tag의 내용이 Grab me! 에서 Got you!로 바뀐 것을
+볼 수 있다.

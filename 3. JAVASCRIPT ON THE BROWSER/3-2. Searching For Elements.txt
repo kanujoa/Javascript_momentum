@@ -1,0 +1,74 @@
+id는 편리하지만 보통 className을 사용하거나 id와 className 둘 다 사용한다.
+
+1. 오류 이해하기
+<h1> tag에서 id를 삭제하고 다음과 같이 여러개를 붙여넣는다.
+    <h1 class = "hello">Grab me!</h1>
+    <h1 class = "hello">Grab me!</h1>
+    <h1 class = "hello">Grab me!</h1>
+    <h1 class = "hello">Grab me!</h1>
+    <h1 class = "hello">Grab me!</h1>
+
+그러면 console 창에서 다음과 같은 오류가 발생한다.
+app.js:3 Uncaught TypeError: Cannot set properties of null (setting 'innerText')
+이것은 title이 null(아무것도 없다)이라는 의미이다. const title = document.getElementById("something");
+라고 적어주었는데 something이라는 id가 존재하지 않기 때문이다.
+우리는 이 null인 title의 innertext를 변경하려고 한 것이므로 이것이 불가하여 위와 같은 오류가 뜨는 것이다.
+
+2. className 사용해 보기
+2-1 ex)
+const hellos = document.getElementsByClassName("hello");     --> getElementsByClassName( ) 함수로 HTML의 class를 JS를 이용해 가져올 수 있다.
+console.log(hellos);      --> console 창에 hellos 정보가 뜬다.
+결과는 다음과 같다.
+HTMLCollection(5) [h1.hello, h1.hello, h1.hello, h1.hello, h1.hello]
+즉, 위의 결과는 많은 h1이 들어 있는 array이기 때문에 'hellos.' 과 같은 형식으로 무언가를 불러올 수 없다.
+
+--> 많은 element들을 가지고 오고 싶을 때는 getElementsByClassName( ) 함수를 사용하면 된다.
+
+2-2 ex)
+HTML을 다음과 같이 변경한다.
+<div class = "hello">
+    <h1>Grab me!</h1>
+</div>
+여기에서 우리가 할 것은 위에서 <h1>만을 가지고 오는 것이다.
+
+const title = document.getElementsByTagName("h1");
+console.log(title);
+js파일에 위와 같이 적어주면 h1 tag를 통해 요소를 가져오는 것이 된다. console창에서의 결과는 h1 하나만 들어 있는 array가 나온다.
+HTMLCollection [h1] 이렇게 말이다. 
+title은 object 자체가 아니고 array이기 때문에 그것으로 title.something 같은 무언가를 할 수는 없다. 즉, 하위
+요소를 가져오는 것을 못한다.
+
+3. Nico가 추천하는 element를 가지고 오는 가장 좋은 방법
+--> querySelector or querySelectorAll
+querySelector는 element를 CSS 방식으로 검색할 수 있다. 즉, CSS에서 선택자를 작성하는 방식으로 elemnet를 가져올 수 있음!
+
+const title = document.querySelector(".hello h1");
+console.log(title);
+위와 같이 js 파일에 입력하면 console 창에서는 <h1>Grab me!</h1>의 결과가 나타나는 것을 볼 수 있다.
+--> querySelector는 단 하나의 element만을 return해준다.
+const title = document.querySelector(".hello h1:first-child");
+console.log(title);
+위와 같이 first-child 같은 것을 이용해 입력해 주어도 가능하다. 
+
+HTML을 다음과 같이 변경해 본다.
+<div class = "hello">
+    <h1>Grab me!</h1>
+</div>
+<div class = "hello">
+    <h1>Grab me!</h1>
+</div>
+<div class = "hello">
+    <h1>Grab me!</h1>
+</div>     --> 똑같은 코드뭉치 3개
+이때 js 파일에 위처럼 입력했을 때의 결과는 앞과 똑같이 <h1>Grab me!</h1> 한 줄로 나온다.
+qureySelector를 사용할 때 위와 같이 hello class 안에 h1이 많을 수도 있다. but 위와 같이 한줄로만 나오는
+이유는 qureySelector는 첫번째 element만 가져오기 때문이다.
+만약 모든 element를 가져오고 싶다면 qureySelectorAll을 사용하면 된다. qureySelectorAll을 사용했을 시 console창에서의 결과는
+NodeList(3) [h1, h1, h1] 이렇게 된다.
+
+-기억!  이 강의에서의 대부분은 querySelector를 사용할 것임.
+
+4. qureySelector 활용하기
+const title = document.querySelector(".hello h1");     -->querySelector로 hello class에 속하는 h1 tag element를 가져와서
+title.innerText = "Hello";     --> <h1> tag 안의 내용을 Hello로 바꿈.
+console.log(title);     --> <h1>Hello</h1> 로 바뀐 것이 console 창에 뜸. 
