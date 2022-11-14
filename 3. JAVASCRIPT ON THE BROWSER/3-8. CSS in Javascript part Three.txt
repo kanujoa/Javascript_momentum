@@ -1,0 +1,54 @@
+1. 
+JS에서 h1.className은 이전에 정해놓은 class들(ex) sexy-font)은 상관하지 않고 모든 것을 교체해 버린다.
+
+but classList에서는 조금 다르게 할 수 있다.
+classList에는 여러 좋은 function들이 있는데 그 중 contains라는 function은 우리가 명시한 class가 HTML
+element의 class에 포함되어 있는지 아닌지를 말해준다.
+classList는 element의 class 내용물을 조작하는 것을 허용한다.
+
+const clickedClass = "clicked";
+if (h1.classList.contains(clickedClass)) {    --> <h1>에 CSS에서 만든 clicked class(clickedClass 변수로 대체)
+    h1.className = "";                               가 있는지를 확인하고 있으면 그 class를 없애어 색을 기본(blue)으로 만드는 코드
+}   
+
+but 아직도 className을 교체하고 있다. (계속 존재하게 만들고 싶은 sexy-font가 h1.className = ""때문에 
+사라진다.)
+
+
+2. 따라서 classList의 함수인 remove와 add를 사용할 것이다. 클릭할 때마다 글씨체는 내가 설정한 폰트 그대로이면서
+바뀌는 것은 글자의 색상 뿐이어야므로 h1.className = "";과 h1.className = clickedClass; 부분을 고쳐줄 것이다.
+function handleTitleClick() {
+    const clickedClass = "clicked";
+    if (h1.classList.contains(clickedClass)) {     --> h1에 clicked class가 존재한다면(색깔이 tomato)
+        h1.classList.remove(clickedClass);     --> clicked class를 삭제하여 색깔을 기본인 blue로 바꾸기 
+    } else {     --> h1에 clicked class가 존재하지 않으면(색깔이 blue)
+        h1.classList.add(clickedClass);     --> clicked class를 추가하여 색깔을 tomato로 전환
+    }
+}     
+
+h1.addEventListener("click", handleTitleClick);     --> <h1> 부분에 click 이벤트가 일어날 때마다 handleTitleClick 함수 실행
+                             
+--> JS를 사용하여 JS가 특정한 class name만 변경하도록 한 것이다!
+
+결과는 글자를 클릭할 때마다 sexy-font class는 사라지지 않고 그대로 남아 있고 clicked class만 제거됐다 나타났다 한다.
+
+
+3. 위와 같이 class가 element에 존재하는지 안하는지를 확인하는 작업(함수)는 JS를 사용하면서 매우 많이 반복할 것이다.
+따라서 위 코드보다 더 쉽게 해줄 function들이 존재한다.
+
+- toggle function(classList 함수 중 하나)
+--> toggle 함수는 classname이 존재하는지 확인을 할 것임.
+--> 만약 class name이 존재한다면 toggle은 class name을 제거할 것이다.
+--> 만약 class name이 존재하지 않는다면 toggle은 class name을 추가할 것이다.
+즉, 우리가 위에서 작성한 코드를 그대로 구현해주는 것과 같다!!
+
+function handleTitleClick() {
+    h1.classList.toggle("clicked");     --> class name 적을 때 따옴표 적는 것 잊지 말기!     
+}
+// class 이름을 여기서는 한번만 적어주면 되므로 굳이 변수를 만들어 주지는 않았음.
+// 만약 class name을 반복하여 사용해야 한다면 그때는 변수를 생성해 주는 것이 좋음.
+
+h1.addEventListener("click", handleTitleClick);
+
+* toggle function의 역할: 토큰을 toggle한다. 토큰이 존재한다면 토큰을 제거하고 존재하지 않는다면 토큰을
+                                  을 추가한다. 
