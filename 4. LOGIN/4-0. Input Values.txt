@@ -1,0 +1,67 @@
+처음부터 새로 시작!
+
+1. 
+우선 사용자의 이름부터 받아야 한다. <input> 사용!
+그리고 로그인 버튼도 포함시키자. <button> 사용!
+이것을 묶어서 하나의 login-form으로 만들자. <div> 사용!
+<body>
+    <div id = "login-form">
+        <input type = "text" placeholder= "What is your name?" />     --> What is your name? 이라는 질문을
+        <button>Log In</button>                                        띄우고 그에 대한 입력값을 text 형태로 받음.
+    </div>
+    <script src = "app.js"></script>                                              
+</body>
+
+
+2. JS에서는 변수 loginForm을 생성! 이것은 id인 login-form을 가리켜야 함.
+const loginForm = document.querySelector("#login-form");
+
+* queryselector를 사용할 때는 ( ) 안에 #을 적어주어 id라는 것을 정확하게 해 주어야 함. 왜냐면 querySelector
+로는 classname, tagname 모두 검색이 가능하기 때문!
+
+대신 다음과 같이 getElementById를 사용하면 JS가 id를 가져와야 한다는 것을 이미 알기 때문에 #을 적어줄 필요
+가 없다.
+const loginForm = document.getElementById("#login-form");
+
+
+3. 이제 input이랑 button을 끌어 오는 것을 해 볼 것이다. 위의 loginForm 변수와 querySelecotr를 이용하면 된다.
+const loginInput = loginForm.querySelector("input");     --> loginForm에서 input tag를 끌어옴.
+const loginButton = loginForm.querySelector("button");     --> loginForm에서 button tag를 끌어옴.
+
+위 3줄의 코드를 더 짧게 적기 위해서는 다음과 같이 선택자 형식으로 작성하여 document에서 한번에 가져오면 된다.
+const loginInput = document.querySelector("#login-form input");
+const loginButton = document.querySelector("#login-form button"); 
+
+결과를 보면 What is your name? 이라는 이름 적는 칸과 Log In 버튼이 생겨져 있다.
+
+
+4. 칸에 이름을 적고 Log In 버튼을 클릭했을 때 console.log가 되는 코드를 작성해 볼 것이다. 추후에 값을
+저장하기 위해서이다. --> click event에 관한 것!
+function onLoginBtnClick() {
+    console.log("click!!!");
+}
+
+loginButton.addEventListener("click", onLoginBtnClick);     --> addEventListener 앞에 click event가 일어나길 원하는 부분을 적어준다.
+
+결과는 Log In 버튼을 클릭할 때마다 console창에 click!!! 문구가 쌓이게 된다.
+
+
+5. 이제 칸에 입력하는 text를 console 창으로 보내고 싶다. 즉, input 값을 얻고 싶다. 
+function onLoginBtnClick() {     
+    console.dir(loginInput);     --> 단순 text 적는 것이 아닌 input tag에 관한 변수를 적은 것!(따옴표 쓰면 안됨)
+    console.log("click!!!");
+}
+
+loginButton.addEventListener("click", onLoginBtnClick);
+--> login button을 누를 때마다 onLoginBtnClick 함수가 실행되면서 loginInput의 내부가 console 창에
+나타나게 된다. 
+
+input 부분을 펼피면 'value' 부분을 볼 수 있는데 여기에 나타나는 값이 input에 입력한 값이다.
+HTML로 돌아가서 input value = "lalalalala" 처럼 value를 미리 정해줄 수도 있다.
+<input value = "lalalaala" type="text" placeholder="What is your name?" />
+value를 확인해 보면 lalalaala로 바뀌어 있다.
+
+--> input의 내용을 가져오려면 어떤 property를 찾아보아야 하는지 알게 되었다. --> value!!
+function onLoginBtnClick() {
+    console.log(loginInput.value);     --> console 창에 input한 값이 뜨게 된다.
+}
