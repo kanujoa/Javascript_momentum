@@ -1,0 +1,77 @@
+<username의 유효성 검사>
+username이 비어있으면 안되고, 너무 긴 username이어도 안 된다!!
+
+1.
+const loginInput = document.querySelector("#login-form input");
+const loginButton = document.querySelector("#login-form button");
+
+function onLoginBtnClick() {
+    const value = loginInput.value;     # value 변수는 input한 값을 의미함.
+    if(value === ""){     # 만약 값이 입력되지 않았다면(비어있다면)
+        console.log("Please write your name.");     # "Please write your name." 이라는 문구를 console창에 띄움
+    }
+}
+
+loginButton.addEventListener("click", onLoginBtnClick);
+
+아무것도 입력하지 않은 채 Log In 버튼을 클릭하면 console 창에 위와 같은 문구가 뜬다.
+
+user가 볼 수 있게 하려면 console.log를 alert로 바꾸어 주면 된다!
+
+
+2. username이 15글자를 초과하면 경고창을 보여주는 코드를 짜보자. value는 헷갈리지 않게 username으로 변경!
+JS에서 글자의 길이를 확인하는 방법은 '변수.length'를 작성하는 것이다.
+
+function onLoginBtnClick() {
+    const username = loginInput.value;
+    if(username === "") {
+        alert("Please write your name.");
+    } else if(username.length > 15) {     # input한 값의 길이가 15보다 길다면
+        alert("Your name is too long.");     # 화면에 "Your name is too long"을 띄워라.
+    }
+}
+
+칸에 길게 문자열을 입력하여 15자가 넘어가면 Your name is too long의 경고창이 뜬다.
+
+
+3. input은 보이는 것보다 더 많은 일을 할 수 있다.
+
+<body>
+    <form id="login-form">     --> div를 form으로 바꾸어 준다.
+        <input 
+            required
+            maxlength = "15"     --> input할 글자의 최대 길이를 15로 설정하였다.
+            type="text" 
+            placeholder="What is your name?" 
+        />
+        <button>Log In</button>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
+
+but 위처럼 하면 Log In을 클릭할 때 HTML에서 확인 작업을 하지 않고 있다. 이유는 <div id = "login-form">
+부분이 form이 아니기 때문이다. 
+input의 유효성 검사를 작동시키기 위해서는 input이 form 안에 있어야 한다!!
+
+function onLoginBtnClick() {
+    const username = loginInput.value;
+    console.log(username);      --> 아직 username을 받는다는 것을 알려주기 위해 console.log 작성
+}     
+
+아무것도 입력하지 않고 버튼을 누르면 칸을 채우라는 유효성 alert이 뜨면 정상! ('이 입력란을 작성하세요'가 뜬다)
+그리고 15글자를 넘겨서 적을 수 없다.
+
+* html에서 제공하는 유효성 alert가 뜨지 않을 때 뜨게 만드는 방법
+: button tag 안에 type = "button" 추가!!
+
+입력 부분에 입력을 하고 버튼을 누르면 새로고침이 실행되면서 url의 끝부분에 ?가 따라붙고 값이 사라져 
+버린다. 이는 웹사이트를 재시작시키고 있는 것이다. 그렇게 되는 이유는 form이 submit되고 있기 때문이다.
+
+<inupt type = "submit" value = "Log In"></inupt> 이라고 작성하고 버튼을 누르면 내가 작성한 form이
+submit된다.
+이제 버튼 click에 대해서 걱정할 필요가 없는 것이 enter를 눌러도 form이 submit되고 있기 때문이다.
+--> form 안에서 enter를 누르고 input이 더 존재하지 않는다면 자동으로 submit된다는 규칙
+     (or form 안에 있는 버튼을 눌렀을 때에도 form이 자동으로 submit된다는 것)
+
+우리가 원하는 것은 브라우저가 새로고침하지 않고 user 정보를 저장하도록 하고 싶은 것이다.
