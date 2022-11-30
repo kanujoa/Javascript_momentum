@@ -1,0 +1,49 @@
+우리가 하려고 하는 것: submit이라는 event가 발생하는 것을 아예 막거나 중간에 개입해서 submit event가
+발생했다는 것을 파악하고 싶다. 
+
+1. login button은 이제 필요가 없고(삭제하기) 우리에게 지금 필요한 것은 login-form 그 자체이다.
+따라서 loginForm 변수를 새로 생성해 준다.(form tag의 id인 login-form으로부터 가져오는 것!)
+const loginForm = document.querySelector("#login-form");
+
+그리고 form의 submit event를 감지하기 위해 click 이벤트 감지를 위해 적어주었던 코드를 다음과 같이 바꾼다.
+loginForm.addEventListener("submit", onLoginSubmit());
+* submit은 enter를 누르거나 button을 클릭할 때 발생한다!!
+
+결과 --> 입력란에 이름을 작성하고 enter를 누르거나 Log In 버튼을 눌러서 submit하면 console 창에서 
+            순간 내가 작성한 input 내용이 나타났다가 사라지는 것을 볼 수 있다. 이로써 input과 submit 미션은
+            완료한 것!
+
+2. but 아직 새로고침은 막지 못했다. 
+* 브라우저는 엔터나 버튼을 누를 때 새로고침을 하고 form을 submit 하도록 되어 있다.
+  --> 우리가 해야 할 것은 이 기본 동작이 발생하지 않게 하는 것이다! (3번에서 볼 수 있듯이 함수를 써서 해결 가능!)
+
+3. 함수에 아무 argument를 추가해 보자. 
+집중해야 할 것은 event가 발생할 때 브라우저가 나의 function을 호출하게 되는데 onLoginSubmit() 이렇게
+비어있는 채로 호출하지는 않고 onLoginSubmit(xxxxxx) 이렇게 첫번째 argument로써 추가적인 정보를 가진 채로
+호출하게 될 것임.
+
+function onLoginSubmit(tomato) {     --> 사실 이러한 argument는 'event'로 적는 것이 관행!
+    tomato.preventDefault();     --> preventDefault 함수를 호출하여 어떤 event의 기본 행동이든지 발생되지 않도록 막음.
+                                              form을 submit할 때 브라우저가 기본적으로 페이지를 새로고침 하도록 되어 있었는데 이를 막는다는 의미!
+    console.log(tomato);     --> tomato를 console.log 하면 여러 정보가 표시됨. (방금 실행된 event에 대한!)
+}
+
+loginForm.addEventListener("submit", onLoginSubmit);
+
+브라우저가 우리에게 어떤 정보를 넘겨주는지 확인해 보자.
+이름 입력란에 글자를 넣고 Log In 버튼을 클릭하면 console 창으로부터 다음과 같은 어떤 정보를 얻을 수 있다.
+SubmitEvent {isTrusted: true, submitter: button, type: 'submit', target: form#login-form, currentTarget: form#login-form, …}
+onLoginSubmit function에 대한 argument로 나온 것이다.
+
+
+4. 다음과 같이 함수를 바꾸어 준다.
+function onLoginSubmit(event) {     --> tomato를 event로 바꾸기
+    event.preventDefault();     
+    console.log(loginInput.value);     --> console창에 입력한 이름의 값을 띄움
+}
+
+loginForm.addEventListener("submit", onLoginSubmit);
+
+이제 submit event가 일어나도 새로고침이 되지 않고 계속 console창에 입력한 값이 뜨는 것을 볼 수 있다.
+즉, submit event가 일어날 때 JS는 onLoginSubmit function을 호출하고 있고 이때 event object를 argument
+로 주고 있고 우리는 기본 동작이 실행되는 것을 막아주고 있다.
