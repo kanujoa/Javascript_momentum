@@ -1,0 +1,79 @@
+지난 시간에 링크에 대해 배운 것들은 삭제한다.
+
+1. 우리가 하고 싶은 것은 유저가 이름을 제출하면 이름 제출 form 자체를 없애는 것이다.
+이를 구현하기 위해서 HTML에서 form 요소 자체를 없애야 한다.
+또 다른 방법으로는 CSS를 이용하여 없애는 방법도 있다.
+
+.hidden {
+    display: none;     --> 어떤 요소에게든 옆의 classname을 주면 그 요소를 숨기게 될 것이다.
+}
+* 'visibility: hidden'은 공간은 그대로 두고 보이지만 않는 것이지만 'display: none'은 잡아둔 공간까지 다
+보이지 않는 것이다!
+
+시험차 아래와 같이 작성해 보자.
+<body>
+    <form id="login-form" class = "hidden">     --> HTML에 다음과 같이 classname을 적용시키면 
+                                                                     input 폼이 사라지는 것을 볼 수 있다.
+
+
+2. 
+function onLoginSubmit(event) {
+    event.preventDefault();     --> 브라우저의 기본 동작을 막아줌(submit시 페이지가 새로고침되지 않음.)
+    const username = loginInput.value;     --> username은 입력값에 해당하는 loginInput의 value를 받는 변수이다.
+    loginForm.classList.add("hidden");     --> CSS에서 작성해 준 .hidden을 loginForm에 해당하는 요소에 적용해 준다.
+    console.log(username);     --> 확인차 username console 창에 띄운다.
+}
+(HTML에서 class = "hidden" 으로 적어주었던 것을 위에서 loginForm.classList.add("hidden")을 적어줌으로써
+구현시킬 수 있었다.)
+
+결과 : 입력창에 이름을 입력하고 Log In 버튼을 클릭하여 submit하면 form 자체는 사라져 버리지만 입력값은 
+console에 기록된 것을 확인할 수 있다.
+
+
+3. <form>아래에 <h1></h1/>이라는 새로운 빈 HTML 요소를 생성한다.
+...........
+</form>
+<h1 class = "hidden"></h1>
+
+새로고침하여 개발자 도구에서 element를 살펴보면 hidden class를 가진 h1이 생성되었음을 확인할 수 있다.
+
+이제 form은 숨기고 h1은 표시되도록 할 것이다. but h1에 표시할 텍스트가 있을 때만!
+[HTML]
+</form>
+<h1 id = "greeting" class = "hidden"></h1>     --> h1에 'greeting'이라는 이름의 id 추가!
+
+[JS]
+const greeting = document.querySelector("#greeting");     --> <h1> 요소를 의미하는 greeting 변수 생성
+
+function onLoginSubmit(event) {
+    event.preventDefault();     // 브라우저의 기본 동작을 막아줌(submit시 페이지가 새로고침되지 않음.)
+    loginForm.classList.add("hidden");     --> <form> 자체에 display: none을 의미하는 hidden이라는 이름의 class 적용
+    const username = loginInput.value;     --> username은 사용자가 input한 이름이 대입되는 변수
+    greeting.innerText = "Hello " + username;     --> <h1>에 속하는 text를 생성함.(이는 Hello username 형태로 화면에 띄워짐.)
+}
+
+결과 : 이름을 입력하고 제출하면 form이 사라지고 개발자 도구의 element를 살펴보면 form에 class = "hidden"이 추가되고
+h1에는 innertext로 Hello username이 추가되는 것을 볼 수 있다.
+
+
+4. username을 작성하여 제출한 후 <h1>에 innertext로 들어간 것을 화면에 출력하고 싶으므로 <h1>에서의
+hidden class를 삭제하는 코드를 추가한다.
+const HIDDEN_CLASSNAME = "hidden";     --> 아래에서 hidden이 여러번 쓰일 것이므로 변수로 생성해 주었다.
+
+function onLoginSubmit(event) {
+    event.preventDefault();     // 브라우저의 기본 동작을 막아줌(submit시 페이지가 새로고침되지 않음.)
+    loginForm.classList.add(HIDDEN_CLASSNAME);
+    const username = loginInput.value;
+    greeting.innerText = "Hello " + username;
+    greeting.classList.remove(HIDDEN_CLASSNAME);     --> username을 제출하면 <h1>에서의 class인 hidden이
+                                                                             사라지면서 화면에 Hello username의 문구가 뜨게 됨.
+}  
+
+결과로 이름 적고 enter 누르면 화면에 큰 글씨로 Hello username 뜨는 것을 확인 가능!
+단순히 classname을 추가하고 삭제함으로써 일어난 일!
+
+
+5. innertext에 해당하는 "Hello " + username 부분을 좀 더 좋게 대체해 보자.
+
+greeting.innerText = `Hello ${username}`;     --> 위에서의 코드와 동일하게 동작을 한다.
+* ` `(백틱)과 ${ }을 사용하는 것이 포인트이다! (' ' 나 " "를 사용하지 않는다.) 그래야지 변수값이 반영이 된다.
