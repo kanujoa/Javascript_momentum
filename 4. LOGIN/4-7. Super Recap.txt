@@ -1,0 +1,54 @@
+- onLoginSubmit 함수에서 헷갈리지 않게 변수명 수정도 가능하다. (예시 : username --> typedUsername)
+위 변수는 유저가 input에 입력한 유저명으로 이것은 localStorage.setItem 코드를 통해 local storage에 저장된다.
+
+- 우리는 savedUsername 변수를 통해 localStorage에 유저 정보가 존재하는지를 알 수 있으므로 printGreetings
+함수에서 굳이 인자를 받을 필요가 없다. 따라서 paintGreetings가 인자로 받는 username 변수들은 모두 지워줘도 된다.
+대신에 paintGreetings 함수 안에 localStorage에 저장된 username을 찾아오는 코드를 추가로 적어주면 
+greeting.innerText에 localStage에 있는 username이 들어갈 수 있게 된다.
+
+function onLoginSubmit(event) {
+    event.preventDefault();     // 브라우저의 기본 동작을 막아줌(submit시 페이지가 새로고침되지 않음.)
+    loginForm.classList.add(HIDDEN_CLASSNAME);
+    const username = loginInput.value;
+    localStorage.setItem(USERNAME_KEY, username);
+    paintGreetings();     --> 주목!
+}
+
+function paintGreetings() {
+    const username = localStorage.getItem(USERNAME_KEY);     --> 주목!
+    greeting.innerText = `Hello ${username}`;
+    greeting.classList.remove(HIDDEN_CLASSNAME);
+}
+
+if (savedUsername === null) {
+    loginForm.classList.remove(HIDDEN_CLASSNAME);
+    loginForm.addEventListener("submit", onLoginSubmit);
+} else {
+    paintGreetings();    --> 주목!
+}
+
+즉, 이제 무언가를 보내지 않아도 된다. local storage에 무언가를 저장하면 paintGreetings를 호출하는 순간에
+그 유저정보는 localStorage.setItem 코드를 통해 이미 local storage에 저장되어 있을 것이다.
+const username = loginInput.value; 코드를 삭제하고 username 부분을 그냥 loginInput.value로 적는 것이
+가능하다.
+
+- localStorage.getItem(USERNAME_KEY)가 2번 써져 있는 것을 볼 수 있다. 이렇게 그냥 두어도 되지만 localStorage
+를 2번 열어보기 싫은 경우에는 다음과 같이 이전 방식으로 argument를 부여해 주어 코드를 작성해도 된다.
+function onLoginSubmit(event) {
+    event.preventDefault();     // 브라우저의 기본 동작을 막아줌(submit시 페이지가 새로고침되지 않음.)
+    loginForm.classList.add(HIDDEN_CLASSNAME);
+    const username = loginInput.value;     --> 주목!
+    localStorage.setItem(USERNAME_KEY, username);     // localStorage에 username 저장     --> 주목!
+    paintGreetings(username);     // 화면에 메시지 출력하는 함수 호출     --> 주목!
+}
+
+function paintGreetings(username) {     --> 주목!
+    greeting.innerText = `Hello ${username}`;
+    greeting.classList.remove(HIDDEN_CLASSNAME);
+}
+
+if (savedUsername === null) {
+    loginForm.classList.remove(HIDDEN_CLASSNAME);
+    loginForm.addEventListener("submit", onLoginSubmit);
+} else {
+    paintGreetings(savedUsername);    --> 주목!
