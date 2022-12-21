@@ -1,0 +1,39 @@
+1. clock 기능을 구현하기 위한 clock.js 파일을 따로 만들어 주었다. greeting.js 파일의 내용에 이어서 코드를
+작성해도 되지만 그러면 너무 빡빡해 보이므로 따로 파일을 만들어 주었고, index.html 파일에 
+<script src = "clock.js"></script>
+코드를 추가함.
+(HTML에서 app.js 부분도 greetings.js로 바꾸기!!)
+
+2. <h2 id = "clock"></h2> 추가!
+앞선 시간에 했던 작업과 비슷하게 h2를 받아와서 그 내부에 text를 입력하는 것을 할 것임.
+
+
+3. clock.js 로 이동
+- html 요소를 받는 clock 이라는 이름의 변수 만들기
+const clock = document.querySelector("h2#clock");
+다음과 같은 코드도 가능하다.
+const clock = document.querySelector("#clock");
+const clock = document.getElementById("clock");
+
+- innerText를 작성하여 잘 작동하는지 확인하기
+clock.innerText = "alaladdl"
+alaladdl이 화면의 왼쪽 맨 위에 뜬다면 clock이 잘 작동하는 것이다.
+
+- clock의 default 설정
+<h2 id = "clock">00:00</h2>
+javascript 이벤트가 시작하기 전에는 설정해 놓은 default 값인 00:00이 화면에 뜨게 된다.
+(아까 clock.innerText 적은 것은 아예 삭제하기)
+
+
+4. interval : 매번 일어나야 하는 무언가를 의미한다.  ex) 매 2초마다 어떠한 일이 일어나야 한다.
+--> setInterval(argument1, argument2) 형식으로 코드를 작성하면 구현이 가능하다.
+     (argument1: 내가 실행하고자 하는 function, argument2: 호출되는 function 간격을 몇 ms(milliseconds)로 
+      할 것인지 설정
+      단위가 ms 이므로 5초로 설정하고 싶다 하면 5000을 입력해야 함.)
+
+function sayHello() {
+    console.log("hello");
+}
+
+setInterval(sayHello, 5000);     --> 처음에는 console 창에서 아무것도 볼 수 없지만 5초가 지나면 "hello"를 볼 수 있다.
+5초마다 함수를 계속 실행시켜서 console창에서 hello 횟수가 쌓이는 것을 볼 수 있다.
