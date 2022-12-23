@@ -1,0 +1,77 @@
+1.
+이번 시간에는 일정 시간이 흐른 뒤에 function을 딱 한번만 호출하는 법을 배울 것이다.
+--> setTimeout(function, ms) 사용
+     : setInterval 때랑 사용법 같음!
+
+function sayHello() {
+    console.log("hello");
+}
+
+setTimeout(sayHello, 5000);     --> 5초 후에 sayHello 함수가 1번 호출됨. console창에 5초 뒤에 hello가 
+                                              뜨는 것을 볼 수 있음.
+
+
+2. Date object
+시간과 분을 보여주는 Javascript가 가지고 있는 tool
+console 창으로 이동하여 다음과 같이 입력해 보자.
+
+> new Date()     --> 오늘 날짜를 가져온다.
+< Fri Dec 23 2022 13:48:10 GMT+0900 (한국 표준시)
+
+다음과 같이 변수를 설정해서 오늘 날짜 시간 정보에서 필요한 부분만을 가져올 수 있다.
+> const date = new Date();
+<undefined
+
+> date.getDate()     --> 일을 가져옴.
+< 23
+
+> date.getDay()     --> 요일을 가져옴.(일요일이 0, 오늘은 금요일이므로 5)
+< 5
+
+> date.getFullYear()     --> 연도를 가져옴.
+< 2022
+
+> date.getHours()     --> 시를 가져옴.
+<13
+
+> date.getMinutes()     --> 분을 가져옴.
+< 51
+
+> date.getSeconds()     --> 초를 가져옴.
+<19
+
+매 초마다 위 function들을 호출해보자.
+date.getSeconds()는 호출할 때마다 결괏값(초)이 달라지는 것을 볼 수 있다.
+무언가를 계속해서 다시 실행하고 싶을 때는 Interval을 사용해야 한다.
+
+function getClock() {
+    const date = new Date();     --> new Date() 이 부분 전체가 클래스로부터 객체를 생성한 것!
+    console.log(`${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`);     
+}
+// '' 가 아닌 ``(백틱)을 사용해야 한다! (string을 console.log 하기 위해)
+
+setInterval(getClock, 1000);     
+// 1초마다 초의 숫자가 바뀌므로 초의 숫자가 바뀔 때마다 그것을 console창에 띄우려면(위 함수를 실행시키려면) 
+// Interval 함수와 1000ms를 적어주어야 한다.
+
+결과로 매 초마다 console 창에 hour:min:second 형태의 시계가 뜨게 된다.
+이렇게 우리는 매 초마다 새로운 Date object를 만들고 있는 것이다.
+
+
+3. 
+문제 1. website를 새로고침하고 console 창을 다시 보면 시간을 바로 보여주지 않고 1초 뒤에 시간이 뜨는 것을 볼 수 있다.
+해결 --> getClock() 을 적어서 website가 load되자마자 getClock 함수가 실행될 수 있게 하고 그 아래의 코드인
+            Interval 함수로 또 매초마다 getClock 함수가 실행되게 하면 된다.
+
+그리고 console 창에 뜨는 text를 <h2> 부분에 넣어주기만 하면 된다.
+dafault 값으로 00:00:00 으로 설정한다.
+<h2 id = "clock">00:00:00</h2>
+
+그리고 js에서 clock.innerText = 를 console.log 대신에 적어 주면 default 값 자리에 내가 집어넣고 싶은 
+매초마다 바뀌는 시계 text가 들어가게 된다.
+clock.innerText = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+
+문제 2. 14:16:0, 14:16:1, 14:16:2, 14:16:3 이런 식으로 초가 표시되는 것은 별로 보기에 좋지 않다. 
+          0, 1, 2, 3 으로 되어 있는 부분을 00, 01, 02, 03 이렇게 바꾸고 싶다면 다음과 같이 할 수 있을 것이다.
+          (초가 한자리 숫자일 때만 앞에 0을 붙이고 싶은 것이다.)
+해결 --> 다음 시간에

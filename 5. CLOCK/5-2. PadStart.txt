@@ -1,0 +1,54 @@
+우리가 해결해야 할 것
+--> 초는 한 자리 숫자의 경우 0, 1, 2, 3 이렇게 하나로만 표현되는데 이것을 앞에 0을 붙여 00, 01, 02, 03
+이렇게 표현하고자 한다. 두 자리 숫자의 초의 경우에는 0을 추가할 필요가 없다.
+
+1. 위의 기능은 padStart라는 JS 내장 함수로 표현이 가능하다.
+다음과 같이 사용할 수 있다. (console 창에 입력해 보자.)
+padStart는 string에 사용 가능하다.
+> "1".padStart(2, "0")     --> 1이라는 string을 두 자리로 만들 것인데 만약 두 자리가 아니라면 앞에 "0"을
+                                     추가해 두 자리 문자열(길이가 2인 문자열)로 만드는 코드이다.
+< '01'
+
+만약 다음과 같이 이미 문자열의 길이가 2라면 아무것도 추가되지 않고 원래 문자열 그대로 출력된다.
+> "12".padStart(2, "0")
+< '12'
+
+다른 예시)
+> "hello".padStart(20, "x")     --> "hello"라는 문자열의 길이를 20으로 만들 것인데(문자열의 길이가 20보
+                                            다 작다면) hello의 앞자리를 전체 문자열의 길이가 20이 될 때까지 x로
+                                            채우는 코드이다. 
+< 'xxxxxxxxxxxxxxxhello'
+
+
+2. 
+* 위의 것을 실제로 적용시키기 전 number를 string으로 바꾸어야 한다,
+--> 방법
+console 창에 다음과 같이 입력해 보기
+> new Date().getHours()    
+< 16     --> new Date().getHours()은 기본적으로 number 형식으로 출력된다.
+
+> String(new Date().getHours())
+< '16'     --> String()을 써 주면 number 16이 string '16'으로 변환됨.
+
+padStart()를 사용하기 전 string type으로 변환해 주고 clock.innerText도 다음과 같이 수정해 준다.
+function getClock() {
+    const date = new Date();
+    const hours = String(date.getHours()).padStart(2, "0")
+    const minutes = String(date.getMinutes()).padStart(2, "0")
+    const seconds = String(date.getSeconds()).padStart(2, "0")
+    clock.innerText = `${hours}:${minutes}:${seconds}`;     
+}
+
+결과로 초 부분이 00, 01, 02, 03..... 이렇게 나오면 성공이다.
+
+<추가>
+한번에 해결하는 방법!
+
+function getClock() {
+    clock.innerText = new Date().toLocaleTimeString();
+}
+
+getClock();
+setInterval(getClock, 1000);  
+
+대신에 앞에 '오전', '오후'가 붙음.
