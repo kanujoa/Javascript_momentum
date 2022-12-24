@@ -1,0 +1,24 @@
+<복습>
+1. array에서 랜덤하게 한가지 element를 골라내는 것
+--> Math.random() 사용하여 0과 1사이에서의 랜덤한 숫자를 가져올 수 있다.
+     즉, 무조건 0.xxxxx 의 수가 되므로 이것의 정수 자리에 0 이상의 수들도 올 수 있도록 상황에 맞게 어떠한
+     수(변수)를 곱해 주었다.
+--> 위의 변수 자리에는 array.length()가 들어갔다. 이는 array의 길이를 반환하는 메서드이다. array.length()
+     를 곱해 주면 항상 array의 길이보다 작은 수가 결괏값으로 나오게 된다.
+--> Math.floor()를 통해 소수점 아래 숫자들을 버릴 수 있었다. 
+--> 결과적으로 arrayName[Math.floor(Math.random() * arrayName.length)] 이라는 코드를 이용해 array에서의
+     랜덤 인덱싱이 가능하다.
+
+위의 것들을 quotes, image에 적용해 주었다.
+
+
+2.  javascript에서 HTML img tag 만들기
+--> document.createElement("img"); 이용!! (" " 자리에는 어떤 js에서 제공하는 어떤 tagName도 들어가는 것이 가능하다.)
+--> img 경로 넣기: (위 코드를 bgImage라는 변수에 담았다 하면) bgImage.src = `img/${chosenImage}`;
+     (/img는 이미지들이 img 폴더 하부에 위치하기 때문에 적어준 것!)
+     HTML에 <img src = "이미지 경로"/> 이렇게 직접 쓰는 것과 동일한 것!
+--> body에 js로 생성한 HTML을 적용시키기
+     : document.body.append(bgImage);     (HTML 코드 body 부분 가장 아래에 적용됨.)
+      반대로 document.body.prepend(bgImage);는 HTML 코드 body 부분 가장 위쪽에 적용된다.
+
+어색한 부분들은 css로 바꾸어 보도록 할 것이다.

@@ -1,0 +1,81 @@
+1.
+quotes.js 파일을 새로 만든 뒤 명언 10개를 array 형식으로 quotes 라는 변수에 할당한다.
+각 object들은 ,(comma)로 구분되고 각 객체들은 string으로 된 명언 정보와 작가 정보를 가지고 있다.
+HTML에 <script src = "quotes.js"></script> 써 주는 것도 잊지 말자.
+
+
+2. 우리가 해볼 것은 랜덤 배경화면과 랜덤 명언을 생성하는 것이다.
+우선 HTML에 형식을 생성해 볼 것이다. 랜덤 명언은 맨 아래에 나타나므로 <div id = "quote"></div>는 
+<h1> 아래에 적어준다.
+
+<h2 id = "clock">00:00:00</h2>
+<h1 id = "greeting" class = "hidden"></h1>
+<div id = "quote">
+    <span></span>     --> 명언을 위한 span tag
+    <span></span>     --> 작가를 위한 span tag    
+</div>
+
+
+3. quotes.js에서 선택자를 통해 HTML에서 tag를 가져오면서 변수도 생성한다.
+const quote = document.querySelector("#quote span:first-child");
+const author = document.querySelector("#quote span:last-child");
+
+
+4. randomness(무작위성)
+4-1. 우선 quotes array 안에 있는 element에 접근을 해 보겠다.
+console.log(quotes[0]);     --> 첫번째 명언에 접근하기
+console.log(quotes[10 -1]);     --> 마지막 명언에 접근하기 (명언이 총 10개인데 컴퓨터는 0부터 숫자를 읽
+                                             으므로 -1을 해 주어야 함.)
+* 파이썬처럼 [-1]을 사용하면 undifined라고 뜬다.
+
+4-2. 0부터 array의 길이인 10 사이 숫자들에 접근하는(0부터 9까지의 숫자를 주는) function을 만들어 볼 것이다.
+JS에서는 Math 모듈을 제공한다.
+그 중 random 메서드(함수)는 0부터 1 사이의 랜덤한 숫자를 제공한다.
+> Math.random()
+< 0.3253570216172257
+> Math.random()
+< 0.3402421906819124
+
+이것을 응용하여 Math.random()에 10을 곱하면 0에서 10 사이의 숫자들을 얻을 수 있다.
+> Math.random() * 10
+< 3.572941269506431
+> Math.random() * 10
+< 0.6170261076116024
+
+but 결과는 항상 int(정수)가 아닌 float(소수)로 표현된다. 우리는 딱 소수점 앞부분만 필요로 한다.
+다음과 같은 함수들을 사용해서 소수를 정수로 표현할 수 있다.
+ex) > Math.round(1.2)     --> round 함수는 소수를 반올림한다.
+     < 1
+* ceil 함수는 다음과 같이 작동한다. (입력된 소수의 정수 부분에 1을 더하고 소수점 아래 부분을 없앤 정수 
+형태로 출력한다.)
+ex) > Math.ceil(1.1)
+     < 2
+* floor 함수는 소수점 아래 부분을 없애버린다.
+ex) > Math.floor(1.99999)
+     < 1
+여기에서 우리가 사용할 것은 floor 함수이다.
+console 창에 다음과 같이 입력하여 0부터 10까지의 랜덤한 정수를 가져올 수 있다.
+ex)
+> Math.floor(Math.random() * 10)
+< 8
+
+4-3. 위의 것을 quotes array의 index에 적용시키면 된다.
+console.log(quotes[Math.floor(Math.random() * 10)])
+
+브라우저를 refresh 해 보면 랜덤한 명언과 작자를 포함한 객체 하나가 console 창에 떠 있는 것을 볼 수 있다.
+
+4-4. 문제: 숫자 10을 지정해 놓아서 위 코드는 딱 10개의 명언들을 가지고 있을 때만 제대로 작동한다.
+             즉, 명언의 개수가 바뀔 때마다 숫자를 수정해 주어야 하는 번거로움이 있다.
+--> 해결: 따라서 숫자를 적는 것 대신 array의 길이를 알아내는 것이 좋다.
+'Array.length'를 사용하면 array의 길이를 반환해 준다!!
+ex) > [1, 2, 3, 4, 5].length
+    <  5
+
+js 파일에는 다음과 같이 수정할 수 있다.
+const quote = document.querySelector("#quote span:first-child");
+const author = document.querySelector("#quote span:last-child");
+const todaysQuote = quotes[Math.floor(Math.random() * quotes.length)];     --> 주목!
+
+quote.innerText = todaysQuote.quote;      --> 주목!
+author.innerText = todaysQuote.author;     --> 주목!
+결과로 명언과 작가가 왼쪽에서부터 순서대로 한줄로 화면의 3번째줄에 뜨는 것을 볼 수 있다.

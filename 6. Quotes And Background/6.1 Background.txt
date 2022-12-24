@@ -1,0 +1,43 @@
+이번 시간에는 랜덤한 배경화면을 만들어 볼 것이다.
+
+1. background.js 파일을 생성한다.
+그리고 HTML에도 <script src.....>를 적어준다.
+배경화면으로 쓸 이미지를 3개 저장한다.
+또한 css, html, js, img 폴더를 만들어 같은 확장자명을 가진 파일끼리 모인 폴더를 만들어 보기 편하게 한다.
+(index.html 파일은 html 폴더로 묶지 않고 따로 빼주어 다른 폴더들과 나란히 해야지 js, css파일의 것들이 제대로
+적용이 된다.)
+
+
+2. images array를 만들어 준다. 주의할 점은 imgaes array 안에 들어가는 이미지명이 내가 저장한 이미지명과
+동일하게 적어주어야 한다는 것이다. (string type으로!) --> jpg, jpeg이런 확장자명도 동일하게 적어주어야 한다!!
+
+
+3. random 이미지를 가져오는 코드는 quotes 때와 동일하다.
+우리가 필요로 하는 숫자는 0에서부터 2이다. 이는 images의 길이와 동일하다.
+const chosenImage = images[Math.floor(Math.random() * images.length)];
+
+console.log(chosenImage)를 해 보면 0.jpg, 1.jpg, 2.jpg가 돌아가면서 잘 나오는 것을 볼 수 있다.
+
+
+4. 이제 해야 할 것은 html에 이미지를 추가하는 것이다.
+지금까지 우리가 해온 것은 html에서부터 무언가를 가져오는 것임. 
+html에서 <img src = "img/2.jpg"/> 이런 식으로 이미지를 추가할 수 있지만 우리가 원하는 것은 3개의 
+이미지 중 랜덤으로 선택하는 것이기 때문에 html로 구현시킬 수 없고 js를 이용해야 한다.
+
+const bgImage = document.createElement("img");     --> createElement()를 이용해 html에 tag를 추가
+                                                                           시킬 수 있다.
+console.log(bgImage);를 하면 console 창에 <img>라는 tag가 뜬다. 거기에서 마우스 오른쪽 버튼을 눌러
+요소 패널을 표시를 누르면 현재 페이지에서 노드를 찾을 수 없다는 메시지가 뜬다. 즉, html 어디에서도 
+<img>를 찾아볼 수 없다는 의미이다.
+
+이어서 src도 내가 설정해 줄 수 있다.
+bgImage.src = `img/${chosenImage}`;     
+console.log(bgImage)를 해 보면 <img src="img/0.jpg"> 이렇게 console 창에 뜨는 것을 확인할 수 있다.
+(물론, chosenImage를 써 주었으므로 이미지의 번호는 랜덤이다.)
+
+
+5. 마지막으로 우리가 해야 할 일은 bgImage를 body 내부에 추가하는 것이다.
+--> appendChild()를 이용하여 body에 html을 추가할 것이다.
+document.body.appendChild(bgImage);
+결과로 요소(html) 창에 <img src = .....>가 랜덤한 이미지 경로로 나타나는 것을 볼 수 있다.
+그리고 화면의 body 부분에 내가 저장한 이미지들이 그에 따라 랜덤하게 나타나는 것도 볼 수 있다.
