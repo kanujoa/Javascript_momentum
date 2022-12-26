@@ -1,0 +1,98 @@
+1. todo.js 파일을 만들고 HTML과도 연동시켜준다.
+
+
+2. 사용자가 todo 목록에서 todo들을 확인할 수 있어야 한다.
+따라서 사용자가 todo를 작성할 수 있는 form을 HTML에서 생성해 줄 것이다. (사용자 이름 입력란 아래에 만들면 된다.)
+
+<h1 id="greeting" class="hidden"></h1>
+<form id="todo-form">
+    <input type="text" placeholder="Write a To Do and Press Enter" required/>    
+</form>
+작성 내용은 text type으로 하고 작성란을 클릭하기 전에는 "Write ~ Enter" 문구가 뜨도록 placeholder도
+넣어 주었다. 그리고 이것을 필수로 만들기 위해서 required도 넣어 주었다.
+
+Hello Nico 아래에 todo 입력창이 뜨고 무언가를 입력한 후 Enter를 누르면 페이지가 새로고침된다. 물론 JS
+파일에 아무것도 입력하지 않았으므로 실행되는 Javascript도 없다. 그리고 입력란에 아무것도 입력하지 않고
+Enter를 누르면 이 입력란을 작성하세요 라는 문구가 나온다.
+
+
+3. 사용자가 입력란에 입력한 todo가 리스트의 형태로 나타내어질 수 있게 바로 아래에 <ul>tag를 만든다.
+<ul>에 속하는 <li>들은 사용자가 입력하는 것에 따라서 달라지므로 JS를 이용해 <li>를 추가시킬 것이다.
+<form id="todo-form">
+    <input type="text" placeholder="Write a To Do and Press Enter" required/>    
+</form>
+<ul id="todo-list"></ul>
+
+
+4. JS로 HTML에서의 form과 ul를 가져가보자.
+const toDoForm = document.getElementById("todo-form");
+const toDoList = document.getElementById("todo-list");
+
+
+5. 앞에서 배웠듯이 <form>은 기본적으로 submit 이벤트를 가진다. 따라서 우리는 submit 이벤트의 기본 동작
+인 페이지가 새로고침 되는 것을 막는 함수를 작성할 것이다.
+
+5-1.
+function handleToDoSubmit(event) {
+    event.preventDefault();      
+}
+
+toDoForm.addEventListener("submit", handleToDoSubmit);
+toDoForm 부분에 해당하는 todo 입력란에 내용을 작성하여 Enter 키를 누르면 <form>의 기본 동작인 
+"submit" event가 실행되게 되고 addEventListener 함수에 이해 handleToDoSubmit 함수가 실행되게 된다.
+위에서 작성한 handleToDoSubmit 함수에는 event라는 argument(인자)를 작성해 주었는데 위의 경우
+submit이 곧 event 자리에 들어가게 되면서 이벤트의 기본 동작을 막아주는 함수인 preventDefault()가 
+submit 이벤트에 적용되게 된다. 
+즉, 지금까지 작성한 것을 실행하였을 때 나오는 결과는 입력창에 무언가를 입력하고 Enter를 눌렀을 때 
+페이지가 새로고침되지 않는 것이어야 한다.
+(무언가를 입력하고 Enter를 누르면 새로고침되거나 작성한 글자가 없어지지 않고 그냥 그 상태 그대로 있다.)
+
+5-2.
+이제 입력란에 작성한 value를 받아오는 작업을 할 것이다.
+우리는 (1)toDoInput을 dcument 전체에서 찾아볼 수도 있고, (2)앞에서 작성한 변수인 toDoForm 안에서도 찾아
+볼 수 있다. (둘중에 하나로 적으면 된다.)
+(1) const toDoInput = document.querySelector("#todo-form input");
+(2) const toDoInput = toDoForm.querySelector("input");
+위의 코드를 통해서 HTML에서 <input>을 가져온다.
+
+그리고 input의 값을 console.log 해서 확인해 보기 위해 함수에 다음과 같은 코드를 더해본다.
+function handleToDoSubmit(event) {
+    event.preventDefault();
+    console.log(toDoInput.value);     --> 값은 변수.value로 가져왔다.
+}
+결과로 console창에 입력란에 입력하고 Enter를 누른 text가 그대로 있어야 한다.
+
+5-3.
+Enter를 누를 때마다 내가 입력한 입력값이 모두 사라지게 하고 싶다.
+toDoInput의 value에 빈 값을 넣음으로써 구현할 수 있다.
+function handleToDoSubmit(event) {
+    event.preventDefault();
+    toDoInput.value = "";     --> 주목!
+}
+Enter를 누르면 값이 사라지고 다시 placeholder에 적어주었던 text가 적혀있어야 한다.
+
+5-4.
+input value를 비우기 전에 그 값을 저장하는 코드도 작성해 보자.
+function handleToDoSubmit(event) {
+    event.preventDefault();
+    const newTodo = toDoInput.value;     --> 주목!!
+    toDoInput.value = "";
+}
+마지막에 toDoInput.value = ""; 로 input의 value를 비웠다 하더라도 newTodo의 값까지 비워지는 것은 아니다.
+이미 두 번째 줄이 실행되는 시점에 처음에 적어준 input.value가 newTodo라는 새로운 변수에 복사되기 때문이다.
+(두번째 줄 코드 이후로 toDoInput.value로 무엇을 하든 newTodo에는 영향이 없게 된다.)
+
+함수의 console.log(newTodo, toDoInput.value);를 적어 console 창에서 각 변수가 어떤 값을 담고 있는지 
+확인해 보자.
+function handleToDoSubmit(event) {
+    event.preventDefault();
+    const newTodo = toDoInput.value;
+    console.log(toDoInput.value);     --> 주목!!(input에 입력한 값이 console 창에 떠야 정상)
+    toDoInput.value = "";
+    console.log(newTodo, toDoInput.value);     --> 주목!!(input에 입력한 값이 newTodo 자리에 떠야 정상,
+                                                                           toDoInput.value는 값(공백)이 안떠야 정상)
+}
+
+* greetings.js에서는 입력창에 이름을 입력하고 제출했을 때 입력창(form 자체를)을 감추고 그 자리에 특정 
+text를 띄우기 위해 hidden을 사용하였고 여기에서는 form은 그대로 놔두고 todo 제출시 그 값만 보이지 않게 
+하기 위해서 value에 공백("")을 넣는 방법을 사용한 것이다. 

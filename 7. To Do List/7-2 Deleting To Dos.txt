@@ -1,0 +1,78 @@
+이번에 해 볼 것은 toDo를 삭제하는 button을 추가하는 것이다.
+중요한 것은 <button>이 click 이벤트를 기다리고 있어야 한다는 것이다.
+
+1. button tag 생성 코드를 작성한다. button 클릭 시 <button></button>에 들어갈 text도 작성해 준다.
+function paintToDo(newTodo){
+    const li = document.createElement("li");
+    const span = document.createElement("span");
+    span.innerText = newTodo; 
+    const button = document.createElement("button");     --> 주목!!
+    button.innerText = "❌"     --> 주목!!
+    li.appendChild(span);   
+    li.appendChild(button);     --> 주목!! <li>는 <button>이라는 자식 tag를 가지게 됨. (화면에 나타난 <li> 옆에 X버튼 적용 가능)      
+    toDoList.appendChild(li);     --> span과 그 옆에 button을 생성하고 나서 li를 <ul>의 자식 tag로 추가한다.(순서에 주목!)
+}
+지금까지의 결과로 input에 값을 작성하고 enter를 누르면 입력창 아래에 입력값과 그 옆에 X이모지가 있는
+버튼이 존재해야지 성공이다.
+
+
+2. 버튼이 클릭되었을때 웹사이트가 그것을 알아차려야 하므로 button에 click event를 listen하는 코드를 
+적어주어야 한다. 그리고 button을 클릭했다는 것은 내가 작성한 리스트를 삭제하겠다는 의미이므로 click
+event가 일어났을 때 실행시킬 함수인 deleteToDo도 만들어 주어야 한다.
+
+function deleteToDo() {
+    console.log("dkdkdkdk");     --> deleteToDo가 제대로 작동하는지 파악하기 위해 일단 아무거나 console.log 해본다.
+}
+
+function paintToDo(newTodo){
+   ....................
+    const button = document.createElement("button");
+    button.innerText = "❌"
+    button.addEventListener("click", deleteToDo);     --> 주목!!
+    li.appendChild(span);     // <li>는 <span>이라는 자식을 가지게 되었다.
+    li.appendChild(button);
+    toDoList.appendChild(li);
+}
+입력창에 입력하고 입력값 옆에 뜨는 X 버튼을 누르면 console 창에 dkdkdkdk가 나오는 것을 볼 수 있다.
+
+
+3. 문제는 제거 버튼이 클릭되었다는 것은 알 수 있지만 어떤 <li>를 제거해야 하는지를 알지 못한다는 것이다.
+현재 모든 button이 같은 event(click event)를 기다리고 있고 모두 같은 function(deleteToDo)을 실행하고 있다.
+
+클릭된 버튼이 어떤 건지에 대한 단서를 얻기 위해 console.log(event)를 해 보자.
+function deleteToDo(event) {
+    console.log(event);     --> 결과로 event(click event)의 property들이 쭉 뜬다.
+}
+입력창에 a, b, c를 차례로 입력하고 옆의 X button을 차례로 눌러보면 거의 똑같아 보이는 정보가 console
+창에 3개가 뜨는 것을 볼 수 있다. 그중에서 path property를 보면 어디에서 click 이벤트가 일어났는지를 알 수
+있다. 이것은 곧 클릭 target이 무엇인지를 체크할 수 있다는 것을 의미한다. target property에 가면 확인할
+수 있다.
+
+function deleteToDo(event) {
+    console.dir(event.target);
+} 
+위 코드로 수정한 뒤 a, b, c의 X 버튼을 차례로 누른다. console 창에서는 각 button에 관한 자세한 정보들이
+뜨는데 그 중 'parentNode'(누가 그 버튼의 부모인가를 의미) 옆에 써져 있는 li를 클릭하면 HTML에서 
+<li>tag 줄이 회색으로 변하는 것을 볼 수 있다. 그것이 내가 클릭한 X button의 부모 tag이다.
+
+다음과 같이 코드를 입력해 보자.
+function deleteToDo(event) {
+    console.log(event.target.parentElement.innerText);   (혹은 console.dir)  
+}
+결과로 a❌, b❌, c❌가 차례로 뜨는 것을 확인 가능하다.
+
+function deleteToDo(event) {
+    console.log(event.target.parentElement);     
+}
+위처럼 작성하면 결과가 <li>.......</li> 형태로 나오는 것을 볼 수 있다.
+
+- 정리: target --> 클릭된 element, parentElement --> 클릭된 element의 부모
+         event.target.parentElement로 target(button)의 부모인 parentElement(li)에 접근이 가능하다.
+
+결론적으로 다음과 같이 원하는 <li> 삭제 함수를 만들 수 있다.
+function deleteToDo(event) {
+    const li = event.target.parentElement;
+    li.remove();
+}
+
+이제 X 버튼을 누르면 todolist 삭제가 가능하다!!

@@ -1,0 +1,65 @@
+1. 사용자가 입력한 todo를 화면에 띄우는(그리는) function을 만들어 보자.
+function paintToDo(newTodo){     --> newTodo 라는 인지를 받을 것이다.
+                                                  (이 인자는 handleToDoSubmit 함수에서 정의한 변수, input.value에 해당)
+}
+
+사용자가 어떤 todo를 입력할지 모르므로 handleToDoSubmit 함수에서 paintToDo 함수를 사용할 것이다.
+다음과 같이 함수를 작성해서 실행시켜 보자.
+function paintToDo(newTodo){
+    console.log("i will paint", newTodo);
+}
+
+function handleToDoSubmit(event){
+    event.preventDefault();
+    const newTodo = toDoInput.value;
+    toDoInput.value = "";     
+    paintToDo(newTodo);     --> newTodo에는 이미 toDoInput.value의 값이 담겨 있다. 그 입력값을 
+}                                         paintToDo에 넣어서 호출하는 것이다.
+
+console 창에 i will paint 입력값 이라고 떠야 정상이다.
+
+
+2. 
+background를 만들 때 js에서 document.createElement를 이용하여 <img>를 생성해서 
+document.body.appendChild를 이용해 HTML의 body에 적용시켜주었다.
+마찬가지로 todo.js에서 <li>를 만들어서 그 <li>를 <ul>의 자식 tag로써 추가시킬 것이다.
+<li>만을 만드는 것이 아니라 toDo를 삭제하는 button도 만들고 싶기 때문에 <span>(todo가 담겨 있는)
+, <button>을 만드는 코드도 추가해 준다.
+(내가 원하는 것 --> <li>
+                              <span>hello</span>
+                              <button></button>
+                          </li>
+
+function paintToDo(newTodo){
+    const li = document.createElement("li");
+    const span = document.createElement("span");
+    li.appendChild(span);     // <li>는 <span>이라는 자식을 가지게 되었다.
+    span.innerText = newTodo;     // <span> 안에 적힐 텍스트는 handleToDoSubmit에서 온 newTodo 텍스트가 된다.(toDoInput.value 값이 된다.)
+    console.log(li);     --> 정상적으로 작동하는지 보기 위해 작성하였다.
+}
+입력란에 hello라고 입력한 후 console 창을 보면 <li><span>hello</span></li> 라고 나온다.
+
+성공적으로 진행되었다면 이제 li를 toDoList에 추가하면 된다.
+function paintToDo(newTodo){
+    const li = document.createElement("li");
+    const span = document.createElement("span");
+    li.appendChild(span);     // <li>는 <span>이라는 자식을 가지게 되었다.
+    span.innerText = newTodo;     // <span> 안에 적힐 텍스트는 handleToDoSubmit에서 온 newTodo 텍스트가 된다.(toDoInput.value 값이 된다.)
+    toDoList.appendChild(li);
+}
+이제 입력란에 입력을 하고 Enter를 누르면 내가 작성한 내용이 입력란 아래에 unordered list 형태로 뜨게 된다.
+물론 HTML에서도 <ul id = "todo-list"><li><span>.........</span></li></ul> 의 형태로 뜨는 것을 확인 가능하다.
+그리고 아무것도 입력하지 않으면 추가되는 것이 없다. HTML에서 field를 보호하고 있기 때문이다. 이것은 
+input tag를 작성할 때 required를 넣었기 때문에 발생 가능한 일이다.
+
+* appendChild()로는 객체만 추가가 가능하다. (append()로 더 많은 것 추가 가능)
+ex) li.append("추가해주세요")   --> 문자열 추가 가능
+ex) li.appendChild("추가해주세요")     --> 문자열 추가 불가능(typeError)
+
+그리고 append와 appendChild를 작성하여 둘 다 console.log 해보면 각각 undefined와 <li>....<li>가 
+결과로 나오는 것을 확인할 수 있다.
+
+* 함수 선언식으로 표현된 함수는 자동으로 위로 끌어올려진다.
+ex) addEventListener를 function handleToDoSubmit 위에다 적어도 제대로 작동함.
+
+* paintToDo 함수를 handleToDoSubmit 함수보다 아래에 적어주어도 제대로 작동함.
