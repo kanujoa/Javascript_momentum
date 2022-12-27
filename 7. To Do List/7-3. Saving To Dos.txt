@@ -1,0 +1,60 @@
+이번에 해 볼 것은 todo를 저장하는 것이다. 사이트를 새로고침하면 작성해놓은 todo들이 모두 사라지는 
+것을 볼 수 있다. 
+브라우저에 저장하는 것은 localStorage와 관련이 있다.
+
+<순서> todo localStorage에 저장 --> todo localStorage로부터 불러오기 --> 화면에 그리기
+
+1. newTodo가 그려질때마다 그것이 push되어질 공간인 array를 하나 만든다. (push 의미 = 요소로 추가됨.)
+const toDos = [];
+
+newTodo가 그려질 때마다 toDos array를 가지고 와서 newTodo를 push하기 위해 함수에 다음과 같은 코드
+를 추가한다.
+function handleToDoSubmit(event){
+    event.preventDefault();
+    const newTodo = toDoInput.value;
+    toDoInput.value = "";
+    toDos.push(newTodo);     --> 주목!!
+    paintToDo(newTodo);
+}
+입력창에 a, b, c를 입력하고 console창에 toDos를 입력하면 newTodo(toDoInput.value)에 해당하는 a, b, c
+가 array에 담겨(push되어)있는 것을 확인할 수 있다.
+
+
+2. 이제 array에 담긴 내용들을 localStorage에 넣어야 한다.
+but 문제는 localStorage에는 array가 들어가는 것이 불가능하다. 오직 text만이 저장 가능하다.
+function saveToDos(){
+    localStorage.setItem("todos", toDos);
+}
+
+function handleToDoSubmit(event){     // 이벤트가 일어났을때 행할 동작에 관한 함수
+    .............
+    toDos.push(newTodo);
+    paintToDo(newTodo);
+    saveToDos();     --> 주목!
+}
+이제 application에서 확인해 보면 새롭게 key에 todos가, value에 toDos인 a, b, c가 저장되어 있는 것을
+확인할 수 있다. 이 상태에서 화면을 새로고침하면 화면상에는 작성했던 todo들이 나타나지 않지만 localStorage
+에는 여전히 저장되어 있는 모습을 볼 수 있다.
+
+
+3. 여기에서 또 문제가 있다. 화면을 새로고침한 상태에서 다시 todo를 입력하면 원래 localStorage에 저장
+되어 있던 내용은 사라지고 이번에 입력한 내용으로 reset된다.
+
+또한 localStorage에 array가 아닌 text로 내용이 저장되어 있는데 이것을 array로 저장하고 싶다.
+localStorage에서 text를 array 형식으로 직접 수정하여도 여전히 실제 type은 text이다. 겉보기에 array 형식
+처럼 만들어주는 것이 목표이므로 JS에서 제공하는 'JSON.stringify()'를 사용하면 된다.
+이 기능은 JS object나 array나 어떤 것이든 string으로 바꾸어 주는 기능을 한다.
+console창에서 시험해 보겠다.
+> const player = {name:"nico"}
+< undefined
+> JSON.stringify(player)
+< '{"name":"nico"}'
+
+직접 함수 실행문에 적용해 보겠다.
+function saveToDos(){
+    localStorage.setItem("todos", JSON.stringify(toDos));     --> 기존의 toDos에 JSON.stringify()를 적용시키면 된다.
+}
+새로고침 한 뒤 다시 a, b, c를 입력하고 application을 살펴보면 a,b,c의 text 형태가 아니라
+["a","b","c"] 의 array 형태의 text로 localStorage에 저장되어 있는 것을 확인할 수 있다.
+중복 요소도 가능한 것을 확인할 수 있다.
+아직은 새로고침을 하면 덮어쓰여진다.
