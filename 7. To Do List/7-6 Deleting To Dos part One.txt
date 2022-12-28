@@ -1,0 +1,93 @@
+todo를 지울 때마다 localStorage에 업데이트되지 않으므로 이 부분을 고쳐볼 것이다.
+* localStorage는 데이터베이스가 아니다!! localStorage는 이 toDos array를 복사해두는 곳이다.
+  console 창에 toDos를 입력하여 나오는 정보(array 같은 것들)는 데이터베이스라고 할 수 있다.
+
+1. 현재 JS의 입장에서는 deleteToDo 함수를 통해 화면에서 어떤 HTML의 element를 지워야 하는지 알고 
+있다.
+function deleteToDo(event){
+    const li = event.target.parentElement;
+    li.remove();     --> <li> element 자체를 지우는 것으로 코드를 작성해 놓았다.
+}
+but 어떤 todo text를 데이터베이스에서 지워야 하는지는 모른다.
+ex) 입력란에 a를 하나 더 입력한 후 그 a를 삭제할 시 지운 a가 첫번째에 입력된 a인지 마지막에 입력된 a
+     인지 알 수 없다.
+이를 해결하기 위해서 toDos를 좀 더 좋은 방법으로 만들어야 한다.
+--> todo들에게 ID같은 것을 부여해준다. array의 각 item에 해당하는 'a', 'b', 'c' ..... 와 같은 text 대신에
+     object를 만들고 싶은 것이다. 다음과 같은 형태로 말이다.
+ex) [{id:121212, text:"drink"}]
+
+
+2. 우선 localStorage에서 todo 데이터를 삭제한다.
+그리고 랜덤으로 ID를 만들어 보자. 완전한 랜덤 id는 아니고 element가 만들어질 때 Date.now()의 숫자를 
+가지게 해 볼 것이다.
+(* Date.now()는 밀리초(1000분의 1초)를 주는 함수이다.)
+이전에 handleSubmit 함수에서 toDos.push(newTodo); 코드로 사용자가 입력한 text를 toDos에 push하도록
+했었다. but 이제 object를 push하고 싶다. text와 id를 모두 담은 newTodoObj object를 만들어 newTodo 자리에 
+적용시켜주면 된다.
+function handleToDoSubmit(event){     
+    event.preventDefault();
+    const newTodo = toDoInput.value;
+    toDoInput.value = "";
+    const newTodoObj = {     --> 주목!!
+        text: newTodo,
+        id: Date.now()
+    }
+    toDos.push(newTodoObj);     --> 주목!!
+    paintToDo(newTodo);
+    saveToDos();
+}
+입력창에 hello라고 적은 뒤 localStorage를 살펴보면 [{"text":"hello","id":1672219133956}]의 형태로 저장되
+어 있는 것을 볼 수 있다. 이제 toDos에 text가 아닌 objcet가 저장되게 되었다.	
+console 창에 toDos를 입력하면 
+0: {text: 'hello', id: 1672238868672}
+length: 1
+[[Prototype]]: Array(0)
+위와 같이 정보를 얻을 수 있다. toDos의 id를 사용해 보고 싶다.
+toDos의 id를 HTML에 두어 보자. 이것은 newTodoObj를 추가함으로써 구현할 수 있다.
+
+function handleToDoSubmit(event){     
+    ............
+    const newTodoObj = {
+        text: newTodo,
+        id: Date.now()
+    }
+    toDos.push(newTodoObj);
+    paintToDo(newTodoObj);     --> 주목!! (paintToDo에 text가 아닌 object를 인자로 준다.)
+    saveToDos();
+}
+문제는 위와 같이 작성하면 hello가 나와야 할 부분이 [object Object]로 뜬다는 것이다. 내가 원하는 것은 실
+제 글자를 보는 것이다. 따라서 paintToDo의 실행문 중 span.innerText = newTodo를 
+span.innerText = newTodo.text로 바꾸어야 한다.
+(인자가 newTodoObj로 주어졌을 때 기준으로 생각해보면 된다!)
+그렇게 하고 새로고침하면 hello가 다시 화면에 뜨는 것을 볼 수 있다.
+
+그리고 id가 있는 이유는 id로 각각의 li item들을 구별하고 싶었기 때문이다. 다음과 같이 코드를 추가해줌으로써
+구현할 수 있다.
+function paintToDo(newTodo){     
+    const li = document.createElement("li");
+    li.id = newTodo.id;     --> 주목!!
+   .....
+}
+localStorage를 비우고 hello를 다시 입력하면 <ul>의 자식 태그로 <li>가 생기고 <li>에 id도 부여되어 있는
+것을 볼 수 있다.
+<ul id="todo-list">
+    <li id="1672240507666">     --> 주목!!
+        <span>hello</span>
+        <button>❌</button>
+    </li>
+</ul>
+li.id = newTodo.id; 를 적어준 이유 -->
+submit 이벤트가 일어나면 handleToDoSubmit 함수가 실행되는데 그 함수의 실행문 중에서 paintToDo(newTodoObj)가
+있다. 따라서 paintToDo 함수에 text와 id를 포함한 객체인 newTodoObj이 paintToDo 함수에 인자로 들어가게 되고
+곧 li.id = newTodoObj.id가 되어 실행된다.
+
+
+3. 이제 user가 어떤 id를 지우길 원하는지 알려주어야 한다.
+function deleteToDo(event){
+    const li = event.target.parentElement;
+    console.log(li.id);     --> <li>를 지우기 전에 li.id를 console창에서 얻어보자.
+    li.remove();
+}
+결과로 X버튼을 누르면 그 <li>에 해당하는 id가 console창에 뜨게 된다.
+
+다음 시간에 이어서~^^
