@@ -1,0 +1,40 @@
+1.
+> const arr = [1, 2, 3, 4]
+< undefined
+
+> arr.filter(item => item > 2)
+< (2) [3, 4]
+
+> const newArr = arr.filter(item => item > 2)
+< undefined
+
+> arr     --> filter가 arr을 변경하지 않는다. (const arr의 arr로 출력)
+< (4) [1, 2, 3, 4]
+> newArr     --> 애초에 변수 newArr을 정의할 때 filter를 적용해 줌. 
+< (2) [3, 4]
+
+
+2.
+localStorage에 newTodoObj 형식으로 작성되어 있는 todo들을 JS에서 활용 가능한 array로 바꾸는 
+JSON.parse 함수에 적용하고 그것을 toDos 변수에 할당하였다. 이제 filter 함수를 toDos 변수에 적용시켜
+localStorage에서도 toDos를 삭제하는 코드를 작성해볼 것이다.
+
+function deleteToDo(event){
+    const li = event.target.parentElement;
+    li.remove();
+    toDos = toDos.filter(toDo => toDo.id != li.id);     
+    --> toDos array 중에서 삭제되길 원하는 item(X를 누른 item, click event가 일어난 item)의 id가 그의 부모에 
+         해당하는 <li>의 id와 다를 경우만 요소로 남기는 코드이다.
+}
+
+but type문제가 발생한다. toDo.id의 type은 number이다.
+반면 console.log(typeof li.id);를 함수에 추가로 적고 화면에서 버튼을 눌러 삭제해 보면 string이라고 나온다.
+이럴 때는 parseInt()를 이용해 li.id의 type을 int로 바꾸어 주면 된다!!
+function deleteToDo(event){
+    const li = event.target.parentElement;
+    li.remove();
+    toDos = toDos.filter(todo => todo.id != parseInt(li.id));     --> 주목!!
+    saveToDos();     --> 주목!! 지운 다음에 추가할 때처럼 localStroage에 저장하는 것 잊지 말기!!
+}
+입력창에 a, b, c, d를 입력하고 console 창에 toDos를 입력하면  4개의 요소가 array에 있는 것이 뜨고
+화면에서 삭제하면 toDos에도 정상적으로 반영이 되고 localStorage에도 반영이 정상적으로 되는 것을 볼 수 있다.

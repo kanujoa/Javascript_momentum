@@ -1,0 +1,62 @@
+1. 우리가 array에서 뭔가를 삭제할 때 실제로 array에서 그것을 지우는 것은 아님. 진짜 일어나는 일은 지우고
+싶은 item을 빼고 새 array를 만드는 것임. 즉 item을 지우는 것이 아니라 item을 제외하는 것이다. 그래서 예전
+array는 그대로 있고 지우고 싶은 item을 제외하고 새 array를 만드는 것이다.
+--> 이것을 위해 'filter 함수'를 사용하면 된다!!
+      .filter()를 사용하기 위해서는 filter함수 인자에 적용되길 원하는 함수명을 넣어야 한다.
+       filter 함수의 인자로 있는 함수가 true를 return하면 해당 요소는 제외되지 않는다.
+ex) function sexyFilter(){
+
+     }
+
+     [1, 2, 3, 4].filter(sexyFilter);    --> filter는 forEach와 비슷하다.(리스트를 돈다.) filter는 sexyFilter 함수를 
+                                               부를 것이고 1, 2, 3, 4에 sexyFilter가 차례대로 실행될 것이다. 
+                                               (즉, 1, 2, 3, 4가 sexyFilter의 인자로 들어감. JS가 sexyFilter를 4번 부르는 것임.)
+
+만약 새 array에도 1, 2, 3, 4를 포함하고 싶으면 sexyFilter는 항상 True를 return해야 한다.
+false를 return하면 그 item은 새 array에 포함되지 않을 것이다.
+예를 들면 sexyFilter(1)이 True면 1이 array에서 계속 유지되고, sexyFilter(2)가 False면 2가 array에서 빠지는 식이다.
+
+이제 array의 모든 element를 유지하는 함수를 만들어보자. (console창에서 수행)
+> function sexyFilter(){return true}     --> 항상 true를 return하는 sexyFilter 함수
+< undefined
+> [1, 2, 3, 4, 5].filter(sexyFilter)     --> [1, 2, 3, 4, 5]에 sexyFilter 함수 적용
+< (5) [1, 2, 3, 4, 5]     --> 결과로 아무것도 제외되지 않음.
+
+> function sexyFilter(){return false}     --> 항상 false를 return하는 sexyFilter 함수
+< undefined
+> [1, 2, 3, 4, 5].filter(sexyFilter)     
+< []     --> 결과로 모든 요소들이 제외됨.
+
+> function sexyFilter(item){return item != 3}     --> item이 3이 아닌 것들만 return하는 함수
+< undefined
+> [1, 2, 3, 4, 5].filter(sexyFilter)     --> filter 함수에 의해 array의 요소들이 하나씩 돌아지게 되고 그 과정에서 
+                                                 array의 요소 하나하나가 sexyFilter 함수의 인자인 item으로 들어가게 됨.
+< (4) [1, 2, 4, 5]    --> 결과로 3만 제외된 array가 나옴.
+(ex) 1 != 3이므로 True, but 3 != 3은 False! 3 == 3이 올바르므로.)
+
+> const arr = [1234, 5454, 223, 122, 45, 6775, 334]     
+< undefined
+> function sexyFunction(item){return item <= 1000}     --> 1000 이하의 숫자(True)만 돌려주는 함수
+< undefined
+> arr.filter(sexyFunction)
+< (4) [223, 122, 45, 334]
+
+이번에는 newTodoObj의 형식(text와 id)으로 localStorage에 저장되어 있는 todo들을 그대로 console창으로
+가져와볼 것이다.
+> const todos = [{"text":"a","id":1672241358258},{"text":"b","id":1672241360125},{"text":"c","id":1672241361454}]	
+< undefined
+> function sexyFilter(todo){return todo.id !== 1672241358258}  
+   --> todo의 id가 array 첫 번째 요소의 id인 1672241358258과 다른 요소들만 반환함.
+< undefined
+> todos.filter(sexyFilter)
+< (2) [{…}, {…}]0: {text: 'b', id: 1672241360125}1: {text: 'c', id: 1672241361454}length: 2[[Prototype]]: Array(0)
+   --> 첫번째 요소를 제외한 요소들만 반환된 것을 볼 수 있다.
+
+text로 판별하는 예시를 들어 보겠다.
+> const todos = [{text:"lalala"}, {text:"lololo"}]     
+< undefined
+> function sexyFilter(todo){return todo.text != "lololo"}     --> "lololo"라는 text를 가지지 않은 경우만 true
+< undefined
+> todos.filter(sexyFilter)
+< [{…}]0: {text: 'lalala'}length: 1[[Prototype]]: Array(0)
+   --> lalala만 출력되었다.
