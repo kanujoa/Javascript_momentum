@@ -1,0 +1,96 @@
+1.
+API : 다른 서버와 이야기할 수 있는 방법
+지금은 open weather map 서버와 이야기할 것이고 Current Weather Data의 API doc(API 문서)를 클릭하여
+위치에 대한 현재 날씨를 얻어볼 것이다.
+
+API call 아래에 적혀 있는 주소를 복사하여 검색창에 붙여넣기 하면 된다.
+(https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key})
+
+그런데 입력할 시 변수를 변경해 주어야 한다. {lat}에 latitude, {lon}에 longitude에 맞는 숫자를 넣어주면 
+된다. (onGeoOk 함수의 실행 결과로 console 창에 뜨는 숫자들을 넣어주면 된다.)
+{API%20key} 부분에는 내 프로필에서 My API keys 메뉴에 들어가면 나오는 Key를 copy하여 붙여넣기 한다.
+(https://api.openweathermap.org/data/2.5/weather?lat=37.630291920397575&lon=126.8342715764799&appid=5d41111514daf5c7fd6c582ac20937d6)
+
+결과로 경도, 위도, 날씨, 내 위치 등을 알려주는 것을 볼 수 있다.
+
+
+2. API key를 변수를 선언해서 저장해 두자.
+const API_KEY = "5d41111514daf5c7fd6c582ac20937d6";
+
+이제 JS에서 url을 부르는 방법을 알아보자.
+onGeoOk 함수에 다음과 같이 변수를 선언하여 url을 추가한다. lat, lon 부분은 geolocation에서 얻은 값으로 바꾼다.
+그리고 api key 부분은 앞에서 선언해준 API_KEY 변수로 넣어준다.
+function onGeoOk(position){
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;     --> lng를 lon으로 오타 수정 주목!!     
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`;     
+    --> ${ }과 백틱(` `) 주목!!
+    console.log(url);     
+}
+결과를 확인해 보면 내 위치가 반영된 주소가 나와 있게 된다.
+https://api.openweathermap.org/data/2.5/weather?lat=37.63031857186558&lon=126.83415368465154&appid=5d41111514daf5c7fd6c582ac20937d6
+위 주소를 클릭하면 아까와 같은 날씨, 위치 등의 정보가 있는 코드가 나와 있는 것을 볼 수 있다.
+
+'fetch(url);'을 사용해 url을 얻어보자. 이것을 사용하면 실제로 URL에 갈 필요 없이 JS가 대신 URL을 부를 것이다.
+function onGeoOk(position){
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
+    fetch(url);     --> 주목!!
+}
+위치 파악 허용을 눌러도 console창에는 아무것도 뜨지 않지만 개발자 도구 네트워크로 가면 wifi에서 어떤
+일이 일어나는지를 보여주는데 그곳을 보면 JS가 URL로 요청을 한 것을 볼 수 있다.(fetch를 사용하여)
+그것을 클릭하여 미리 보기(preview)를 하면 해당 주소로 이동했을 시 뜨는 정보와 동일한 정보들이 있는
+것을 볼 수 있다.
+
+
+3. 이제 얻은 정보를 응용해 보자. 일단 내가 있는 장소의 이름을 얻고 싶고, 그리고 날씨를 얻고 싶다.
+특히 날씨에는 많은 정보가 array 안에 있다. 그 중에서 결론은 main: "Clear"가 해당된다.
+온도 같은 경우에은 화씨 온도로 나와 있다. 우리는 섭씨 온도를 얻고 싶은데 이런 경우 주소창에 &units=metric을
+추가하면 된다. 
+{"temp":-2.78,"feels_like":-6.39,"temp_min":-3.12,"temp_max":-1,"pressure":1032,"humidity":59}
+이렇게 섭씨 온도로 바뀌어서 나온 것을 볼 수 있다.
+
+* fetch가 작동하는 방법
+fetch는 'promise'이다. promise는 당장 뭔가 일어나지 않고 시간이 좀 걸린 뒤에 일어나는 것이다.
+서버에 무언가를 요청을 하면 서버가 응답할 때까지 기다려야 한다. 그럴 때 then을 사용해야 한다. url을 
+fetch 하고 response의 json을 얻어야 한다. (JSON은 preview에 있는 내용 전부를 의미한다.)
+그리고 다시 한번 then을 사용하여 그 json에서 원하는 data를 얻으면 되는데 data.property 형식으로 얻어
+올 수 있다.
+
+function onGeoOk(position){
+    ..........
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
+    fetch(url).then(response => response.json()).then(data => {     --> 주목!!
+        console.log(data.name, data.weather[0].main);     --> weather는 array 형태이므로 가져올 data가 있는 
+    });                                                                       [0] 부분을 indexing 해주고 그 중 결론적인 날씨가
+}                                                                            적혀 있는 main부분을 적어주었다.
+새로고침하면 Goyang-si Clear 가 결과로 뜨는 것을 볼 수 있다. 원하는 정보인 지역 이름, 날씨가 순서대로
+잘 출력되었다. 내 좌표(위도, 경도)를 얻어서 API로 DB에 질문을 던진 것이다.
+
+
+4. 마지막으로 변수를 만들어서 더 보기 좋은 코드를 만들어 주고 HTML에 태그를 생성하는 코드를 작성해
+보자.
+
+우선, HTML에 지역과 날씨 정보를 화면에 표시하기 위해 다음과 같이 tag를 작성해 준다.
+<div id = "weather">
+    <span></span>
+    <span></span>
+</div>
+
+그리고 JS에서는 다음과 같이 작성해 준다.
+function onGeoOk(position){
+    ..........
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const weather = document.querySelector("#weather span:first-child");
+          const city = document.querySelector("#weather span:last-child");
+          city.innerText = data.name;     --> <span>에 innerText를 넣어줌으로써 화면에 띄울 것이다.
+          weather.innerText = data.weather[0].main;
+        });
+}
+새로고침하고 위치 파악 허용하고 몇 초 기다리면 명언 아래에 날씨 정보가 뜨는 것을 확인할 수 있다.
+
+날씨 말고도 temprature도 얻을 수 있다.
+weather.innerText = `${data.weather[0].main} / ${data.main.temp}`; 이렇게 바꾸어 주면 된다.
