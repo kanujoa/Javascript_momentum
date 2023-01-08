@@ -1,8 +1,40 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+body {
+    background-color: #191970; 
+    color: #B0E0E6;
+}
+
 .hidden {
     display: none;
 }
 
-body {
-    background-color: beige;
-    z-index: -2;
+#myVid {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 70%;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
 }
+
+#myContent {
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+
+/* video를 배경화면으로 고정시키는 법 참조 사이트 */
+/* https://code-boxx.com/responsive-background-video/#:~:text=Sadly%2C%20CSS%20can%20only%20set%20images%20as%20the,top%20of%20it.%20%3Cvideo%20id%3D%22back%22%20src%3D%22video.mp4%22%20autostart%20loop%3E */
+/* z-index가 동작하지 않을 때 해결법: https://stackoverflow.com/questions/5218927/z-index-not-working-with-fixed-positioning */
+/* %와 vh(or vw)의 차이점 : 100%는 부모 태그(옆의 경우에는 body)의 100%를 사용한다는 의미이고(화면의 100%를 의미하는 것이 아님.) vh는 부모 태그와는 상관없어 보이는 Viewport Height의 100%를 다 쓰겠다는 의미*/
