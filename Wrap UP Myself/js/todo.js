@@ -17,16 +17,27 @@ function deleteToDo(event){
     saveToDos();
 }
 
+function completeToDo(event){
+    const li = event.target.parentElement;    // li의 button이 아닌 span(todoInput.value 즉, newTodo)에만 접근할 수 있게 하기 위해서
+    const span = toDoList.querySelector("span")
+    span.style = "text-decoration:line-through;"
+    li.removeChild(toDoList.querySelector("button:first-of-type"));
+} 
+
 function paintToDo(newTodo){     // 화면에 그리기 위한 함수
     const li = document.createElement("li");
     li.id = newTodo.id;
     const span = document.createElement("span");
-    span.innerText = newTodo.text;     // <span> 안에 적힐 텍스트는 handleToDoSubmit에서 온 newTodo 텍스트가 된다.(toDoInput.value 값이 된다.)
-    const button = document.createElement("button");
-    button.innerText = "❌";
-    button.addEventListener("click", deleteToDo);
+    span.innerText = newTodo.text;
+    const completeButton = document.createElement("button");     // element를 여러 개 만들고 싶으면 변수도 그에 맞는 개수로 만들어야 함.
+    completeButton.innerText = "✅";
+    completeButton.addEventListener("click", completeToDo);
+    const deleteButton = document.createElement("button");
+    deleteButton.innerText = "❎";
+    deleteButton.addEventListener("click", deleteToDo);
     li.appendChild(span);     // <li>는 <span>이라는 자식을 가지게 되었다.
-    li.appendChild(button);
+    li.append(completeButton);
+    li.append(deleteButton);
     toDoList.appendChild(li);
 }
 

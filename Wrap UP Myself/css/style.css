@@ -1,22 +1,21 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
 
-/* html, body {
+html, body {
     margin: 0;
     padding: 0;
     border: 0;
-} */
+}
 
- /* body {
-    background-color: #191970; 
+body { 
     color: #B0E0E6;
     font-family: 'Courgette', cursive;
-}  */
+} 
 
 .hidden {
     display: none;
 }
 
-/* #clock {
+#clock {
     font-size: 50px;
     font-weight: 60;
     margin: 0;
@@ -25,7 +24,7 @@
 #weather {
     font-size: 20px;
     margin: 0;
-} */
+}
 
 #video {
     position: absolute;
