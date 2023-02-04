@@ -9,46 +9,37 @@
 </head>
 
 <body>
-    <h2 id="clock">00:00:00</h2>
-    <form class="hidden" id="login-form">
-        <input required maxlength="15" type="text" placeholder="What is your name?" />
-        <input type="submit" value="Log In"></input>
-    </form>
-    <h1 id="greeting" class="hidden" style="font-weight:60; font-size:80px; margin=0;"></h1>
-    <h1 id="greeting"></h1>
-    <form id="todo-form">
-        <input type="text" placeholder="Write a To Do and Press Enter" required />
-    </form>
-    <ul id="todo-list"></ul>
-    <div id="quote">
-        <span style="font-size:20px"></span>
-        <br /> 
-        <span style="font-size:20px"></span>
-    </div>
-    <div id="weather">
-        <span></span>
-        <br/>
-        <span></span>
-    </div>
-    <div id="feeling">
-        <h3>How's your feeling today?</h3>
-        <div>
-            <button id="fun">😆</button>
-            <button id="lovely">🥰</button>
-            <button id="good">🙂</button>
-            <button id="soso">😐</button>
-            <button id="bad">🙁</button>     
-            <button id="sad">😭</button>       
+    <div id="container">
+        <h2 id="clock">00:00:00</h2>
+        <form class="hidden" id="login-form">
+            <input required maxlength="15" type="text" placeholder="What is your name?" />
+            <input type="submit" value="Log In"></input>
+        </form>
+        <h1 id="greeting" class="hidden" style="font-weight:60; font-size:80px; margin=0;"></h1>
+        <h1 id="greeting"></h1>
+        <form id="todo-form">
+            <input type="text" placeholder="Write a To Do and Press Enter" required />
+            <ul id="todo-list"></ul>
+        </form>
+        <div id="quote">
+            <span style="font-size:20px"></span>
+            <br /> 
+            <span style="font-size:20px"></span>
         </div>
+        <div id="weather">
+            <span></span>
+            <br/>
+            <span></span>
+        </div>
+        <video id="video" autoplay muted loop></video>
+        <script src="js/greetings.js"></script>
+        <script src="js/clock.js"></script>
+        <script src="js/quotes.js"></script>
+        <script src="js/background.js"></script>
+        <script src="js/todo.js"></script>
+        <script src="js/weather.js"></script>
+        <script src="js/feeling.js"></script>
     </div>
-    <video id="video" autoplay muted loop></video>
-    <script src="js/greetings.js"></script>
-    <script src="js/clock.js"></script>
-    <script src="js/quotes.js"></script>
-    <script src="js/background.js"></script>
-    <script src="js/todo.js"></script>
-    <script src="js/weather.js"></script>
-    <script src="js/feeling.js"></script>
 </body>
 
 </html>
